@@ -1,0 +1,25 @@
+description = 'generic model interfaces'
+
+dependencies {
+    api platform(libs.jackson.bom)
+
+    api libs.jackson.core
+    api libs.jackson.annotations
+    api libs.jackson.databind
+    api libs.commons.lang3
+
+    testImplementation libs.testng
+    testImplementation libs.jsonassert
+    testImplementation libs.equalsverifier
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'base-model-api'
+            pom {
+                name = 'Model API'
+            }
+        }
+    }
+}

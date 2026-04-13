@@ -1,0 +1,92 @@
+
+packages:
+  - codemod
+  - documentation
+  - model-api-ts
+  - model-migration-api-ts
+
+catalog:
+  '@types/mocha': 10.0.10
+  '@types/node': 24.10.4
+  asciidoctor-highlight.js: 0.4.0
+  asciidoctor: 3.0.4
+  highlight.js: 11.11.1
+  c8: 10.1.3
+  eslint: 9.39.2
+  eslint-plugin-mocha: 11.2.0
+  eslint-plugin-notice: 1.0.0
+  eslint-plugin-workspaces: 0.11.1
+  mocha: 11.7.5
+  prettier: 3.7.4
+  rimraf: 6.1.2
+  source-map-support: 0.5.21
+  typedoc: 0.28.15
+  typedoc-plugin-missing-exports: 4.1.2
+  typescript: 5.9.3
+
+catalogs:
+  # all a12 dependencies should be listed here (regardless of how many workspaces use them)
+  # this is done to have a single 'entry point' for upgrading a12
+  a12:
+    '@com.mgmtp.a12.devtools/build-tools': 1.1.0
+    '@com.mgmtp.a12.devtools/codemod': 2.1.0
+    '@com.mgmtp.a12.devtools/eslint-config': 3.1.0
+    '@com.mgmtp.a12.devtools/prettier-config': 1.1.0
+    '@com.mgmtp.a12.devtools/tsconfig': 1.1.0
+    '@com.mgmtp.a12.utils/utils-localization': 7.2.0
+
+  # versions here should only be upgraded when necessary!
+  a12ranges:
+    '@com.mgmtp.a12.utils/utils-localization': ^7.2.0
+
+  ranges:
+    ts-morph: ^27.0.2
+
+# cleanup unused catalog entries during install
+cleanupUnusedCatalogs: true
+
+# no cycles between workspace dependencies
+disallowWorkspaceCycles: true
+
+# enforce version constraints from package.json
+engineStrict: true
+
+# when using "--filter", check that the filter applies to some package
+failIfNoMatch: true
+
+# do not check git status when publishing
+gitChecks: false
+
+allowBuilds:
+  esbuild: false
+
+# CI sets this to warn by default
+loglevel: info
+
+# prevent pnpm >10 from self-upgrading,
+# since it doesn't use the global node_modules as target
+pmOnFail: ignore
+
+# enforce new packages to be at least 1 week old, except our own
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - '@com.mgmtp.a12.*/*'
+
+# allow conflicting peer dependencies for A12 packages
+peerDependencyRules:
+  allowAny:
+    - "@com.mgmtp.a12.*/*"
+  allowedVersions:
+    "asciidoctor-highlight.js@0.4>@asciidoctor/core": "3"
+
+# ensure latest deps are installed when updating for audit
+resolutionMode: highest
+
+strictPeerDependencies: true
+
+# do not install packages where trust level decreased
+trustPolicy: no-downgrade
+
+# before "pnpm run" calls, checks if node_modules are up-to-date
+# (e.g. after rebasing / checking out a branch and forgetting "pnpm install")
+verifyDepsBeforeRun: warn

@@ -1,0 +1,32 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug codemod commands",
+			"skipFiles": ["<node_internals>/**"],
+			"args": [
+				"${input:pickCommand}",
+				"${workspaceFolder}/src/testData/${input:pickCommand}/${input:tsConfigName}.json"
+			],
+			"program": "${workspaceFolder}/lib/cli.js"
+		}
+	],
+	"inputs": [
+		{
+			"id": "pickCommand",
+			"type": "pickString",
+			"description": "Select a specific codemod command",
+			// when adding new Codemod commands, add them as option here
+			"options": ["preferTopLevel"],
+			"default": "preferTopLevel"
+		},
+		{
+			"id": "tsConfigName",
+			"type": "promptString",
+			"description": "Enter the name of the tsconfig that should be used for the command",
+			"default": "tsconfig"
+		}
+	]
+}

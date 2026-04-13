@@ -1,0 +1,24 @@
+{
+  "[asciidoc][markdown]": {
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    },
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80
+  },
+  "editor.parameterHints.enabled": true,
+  "editor.rulers": [80, 120],
+  "path-intellisense.extensionOnImport": false,
+  "testExplorer.mergeSuites": true,
+  "typescript.format.enable": true,
+  "typescript.tsdk": "./model-api-ts/node_modules/typescript/lib",
+  "typescript.validate.enable": true,
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "[javascript][typescript][jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll.eslint"]
+}

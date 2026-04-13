@@ -1,0 +1,12 @@
+/lib
+/target
+/models/json
+/node_modules
+
+npm-debug.log*
+
+cyclonedx.json
+LICENSE
+NOTICE
+THIRD_PARTY_NOTICES
+licenses/

@@ -1,0 +1,58 @@
+{
+  "header": {
+    "id": "sample-app-model",
+    "modelType": "application",
+    "modelVersion": "1.0.0",
+    "locales": [
+      {
+        "code": "en"
+      },
+      {
+        "code": "de_DE"
+      }
+    ],
+    "labels": [
+      {
+        "locale": "en",
+        "text": "Sample App Model"
+      },
+      {
+        "locale": "de_DE",
+        "text": "Applikationsmodell Beispiel"
+      }
+    ],
+    "description": "Test model description",
+    "modelReferences": [
+      {
+        "purpose": "add-directive",
+        "modelType": "document",
+        "alias": "DM-1",
+        "reference": "DomainCRUD"
+      },
+      {
+        "purpose": "add-directive",
+        "modelType": "form",
+        "alias": "FM-1",
+        "reference": "CRUD"
+      },
+      {
+        "purpose": "add-directive",
+        "modelType": "overview",
+        "alias": "OM-1",
+        "reference": "CRUD-overview"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "sample-annotation",
+        "value": "sample annotation value"
+      },
+      {
+        "name": "valueless-annotation-name"
+      }
+    ]
+  },
+  "content": {
+    "someProp": "someValue"
+  }
+}

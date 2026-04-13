@@ -1,0 +1,14 @@
+description = 'dependency-less utils for A12 modules'
+
+// No dependencies - this module has no dependencies beyond JDK
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'base-model-utils'
+            pom {
+                name = 'Base Utils'
+            }
+        }
+    }
+}

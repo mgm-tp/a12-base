@@ -1,0 +1,10 @@
+{
+	"include": [
+	  "src/main/**/*",
+	  "lib/main/**/*"
+	],
+	"reporter": [
+	  "text-summary"
+	],
+	"report-dir": "./target/c8"
+  }

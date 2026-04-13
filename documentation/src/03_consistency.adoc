@@ -1,0 +1,184 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+
+Copyright (c) 2012-2026 mgm technology partners GmbH
+
+Dual License
+------------
+This source file is part of the mgm A12 Platform and available under
+a choice of two different licenses:
+
+1. Open-Source License – EUPL v1.2
+   You may redistribute and/or modify this file under the terms of the
+   European Union Public License, version 1.2 - see https://eupl.eu/.
+
+2. Commercial License
+   Alternatively, you may obtain a commercial license from
+   mgm technology partners GmbH, that permits use of this software
+   under different terms (including support and maintenance services).
+
+   Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+----------------------------------------------
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
+LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+
+= Model Consistency
+
+== Getting Started
+
+The model consistency library can be added to your Maven dependencies as follows:
+
+[source,xml,options="nowrap"]
+----
+<dependency>
+	<groupId>com.mgmtp.a12.base</groupId>
+    <artifactId>base-model-consistency</artifactId>
+	<version>BASE_VERSION</version>
+</dependency>
+----
+
+== General
+
+The library provides interfaces and general functionality to perform consistency checks on A12 models.
+
+The following sections will briefly cover the most important interfaces and classes of the library.
+
+Please refer to the link:./assets/typedoc/index.html[API documentation,role=external,window=_blank] for further information about the provided interfaces.
+
+== Model Resolver
+
+A `ModelResolver` can be used to resolve models based on their name.
+To write your own `ModelResolver` you need implement a single method `getModel`:
+
+[source,java,options="nowrap"]
+----
+Optional<Model> getModel(String modelName);
+----
+
+The method takes the model name and returns the model for the given name or empty if the model could not be resolved.
+Note, that all models must be identifiable by their name.
+
+== Consistency Categories
+
+Consistency categories indicate which types of problems exist in your model.
+The following example shows how you can use the `ConsistencyCategory` interface to implement an enumeration of error codes.
+
+[source,java,options="nowrap"]
+----
+public enum TestCategory implements ConsistencyCategory {
+	SOME_ERROR_1("some.error.1"),
+	SOME_ERROR_2("some.error.2");
+
+	private String keyValue;
+
+	TestCategory(final String keyValue) {
+		this.keyValue = keyValue;
+	}
+
+	@Override
+	public String getKeyValue() {
+		return keyValue;
+	}
+
+	@Override
+	public String getLocalizedMessage(final Locale locale, final String keyValue) {
+		final String errorMessage = // get localized error message
+		return errorMessage;
+	}
+}
+----
+
+These error codes can then be used to create consistency problems by using the `ConsistencyProblem` class.
+To create a problem you need to provide the model name, a consistency category, and an object describing the source of the problem.
+
+Additionally, you can also provide a severity for the problem (`Severity.INFO`, `Severity.WARNING` or `Severity.ERROR`) as well as additional parameters.
+The additional parameters could contain information about the problematic model element to use it in an error message later.
+
+[source,java,options="nowrap"]
+----
+Problem problem = new Problem(
+	modelName,
+	TestCategory.SOME_ERROR_1,
+	"problem source string",
+	Severity.ERROR,
+	// additional parameters here
+);
+----
+
+Consistency problems are used in consistency rules to represent the result of a model validation.
+
+== Rules
+
+You can define your own model consistency rules for a specific model type by implementing the generic `ModelConsistencyRule` interface.
+The interface consists of a single method `executeRule`, which takes a model of the specified type and returns a list of consistency problems.
+
+[source,java,options="nowrap"]
+----
+public interface ModelConsistencyRule<T extends Model> {
+	List<Problem> executeRule(T model);
+}
+----
+
+Rules can be executed in different ways.
+They can be executed directly, by calling the `executeRule` method, but it is recommended to execute rules by using the `ConsistencyValidator`.
+To provide your rules to the `ConsistencyValidator` you should write a rule provider by implementing the `ModelConsistencyRulesProvider` interface.
+
+[source,java,options="nowrap"]
+----
+public interface ModelConsistencyRulesProvider<T extends Model> {
+	Class<T> modelType();
+	boolean supports(Class<?> clazz);
+	List<ModelConsistencyRule<T>> getRules();
+}
+----
+
+Every rule provider handles the rules for a specific model type.
+The method `supports` should return true if the given class is supported by this provider, i.e. if the corresponding rules can be applied to this class.
+If the class is supported, you can retrieve the rules via `getRules`.
+
+=== Consistency Validator
+
+The `ConsistencyValidator` class is the main entry point, that should be used for performing consistency checks for all kinds of A12 models.
+It provides two methods to perform a validation:
+
+* `ConsistencyStatus validate(final Model model)`: Perform a consistency check on a single model
+
+* `ConsistencyStatus validateSet(final Collection<Model> models)`: Perform a consistency check on a set of models
+
+Internally, the `ConsistencyValidator` uses all available `ModelConsistencyRulesProvider` implementations to retrieve the relevant rules for a given model.
+
+The constructor takes two arguments - a `ModelResolver` and a list of additional rules, that are not covered by any rule provider.
+A minimal example of how to use the `ConsistencyValidator` can be seen below:
+
+[source,java,options="nowrap"]
+----
+ModelResolver modelResolver = new TestModelResolver();
+ConsistencyValidator validator = new ConsistencyValidator(modelResolver, Collections.emptyList());
+
+MODEL_TYPE model = // load your model here
+ConsistencyStatus statusSingleModel = validator.validate(model);
+
+Collection<MODEL_TYPE> modelCollection = // load your models here
+ConsistencyStatus statusSetOfModels = validator.validateSet(modelCollection);
+----
+
+The `ConsistencyStatus` object contains the list of problems as well as a boolean flag, which indicates if the validation has been successful or not.
+This flag will be set to true if no problems were found during validation.
+Otherwise it will be set to false.
+All required information can be retrieved via one of the following methods:
+
+* problems()
+
+* isValid()
+
+* isInvalid()
+
+* hasError()

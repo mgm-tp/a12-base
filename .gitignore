@@ -1,0 +1,24 @@
+# our settings
+build/
+target/
+cyclonedx.json
+
+*.iml
+.idea/
+atlassian-ide-plugin.xml
+
+.classpath
+.project
+.settings/
+.metadata
+.gradle/
+*.versionsBackup
+
+test-output/
+
+.git/
+.npm/
+node_modules/
+.eslintcache
+
+*.tgz

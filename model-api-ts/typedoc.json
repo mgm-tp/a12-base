@@ -1,0 +1,11 @@
+{
+	"$schema": "https://typedoc.org/schema.json",
+	"name": "Model API",
+	"out": "../documentation/src/assets/typedoc",
+	"entryPoints": ["./src/main/*"],
+	"readme": "./resources/typedoc/README.md",
+	"excludeExternals": true,
+	"excludePrivate": true,
+	"excludeProtected": false,
+	"plugin": ["typedoc-plugin-missing-exports"]
+}

@@ -1,0 +1,11 @@
+{
+	"include": [".pnpmfile.mjs", "eslint.config.js", "prettier.config.ts"],
+	"compilerOptions": {
+		"types": ["node"],
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"module": "NodeNext",
+		"lib": ["esnext"]
+	}
+}

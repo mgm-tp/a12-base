@@ -1,0 +1,300 @@
+buildscript {
+    dependencies {
+        classpath libs.groovy.yaml
+        classpath libs.spotbugs.plugin
+        classpath libs.cyclonedx.plugin
+        classpath libs.spotless.plugin
+        classpath libs.build.utilities
+    }
+}
+
+import com.github.spotbugs.snom.Confidence
+import com.github.spotbugs.snom.Effort
+import com.mgmtp.a12.devtools.gradle.plugins.buildutils.Helper
+import com.mgmtp.a12.devtools.gradle.plugins.buildutils.tasks.LeadingBuildTask
+import com.mgmtp.a12.devtools.gradle.plugins.buildutils.tasks.PackageJsonModifierTask
+import groovy.json.JsonSlurper
+import groovy.yaml.YamlSlurper
+import org.cyclonedx.model.ExternalReference
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
+/** Define a proper version in build */
+String globalVersion = Helper.getVersion(
+    file('package.json'),
+    project.findProperty('version'),
+    project.findProperty('use')
+)
+
+String pnpmVersion = getPnpmVersion()
+
+String getPnpmVersion() {
+    return (new JsonSlurper().parse(file("package.json"))["packageManager"] as String).split("\\+")[0]
+}
+
+allprojects {
+    apply plugin: 'base'
+
+    version = globalVersion
+    group = 'com.mgmtp.a12.base'
+
+    tasks.register('deploy') {}
+}
+
+if (file('publish/build.gradle').exists()) {
+    apply from: 'publish/build.gradle'
+}
+
+subprojects {
+    // Shared configuration for Java library modules
+    if (
+        !project.name.endsWith('-ts')
+            && project.name != 'documentation'
+            && project.name != 'security'
+            && project.name != 'codemod'
+    ) {
+        apply plugin: 'maven-publish'
+        apply plugin: 'org.cyclonedx.bom'
+
+        // base-parent and base-bom are java-platform projects, so they must not use the java plugin
+        if (project.name != 'base-parent' && project.name != 'base-bom') {
+            apply plugin: 'java-library'
+            apply plugin: 'com.github.spotbugs'
+            apply plugin: 'com.diffplug.spotless'
+
+            java {
+                toolchain {
+                    languageVersion = JavaLanguageVersion.of(21)
+                }
+                withSourcesJar()
+            }
+
+            tasks.withType(JavaCompile).configureEach {
+                options.encoding = 'UTF-8'
+                options.deprecation = true
+                options.compilerArgs << '-Xlint:deprecation'
+            }
+
+            tasks.withType(Jar).configureEach {
+                into('META-INF') {
+                    from(rootProject.file('LICENSE'))
+                    from(rootProject.file('NOTICE'))
+                    from(rootProject.file('THIRD_PARTY_NOTICES'))
+                    from(rootProject.file('licenses')) {
+                        into('licenses')
+                    }
+                    from(tasks.named('cyclonedxDirectBom').get().jsonOutput) {
+                        rename { 'cyclonedx.json' }
+                    }
+                }
+            }
+
+            // TestNG configuration
+            tasks.named('test') {
+                useTestNG()
+                testLogging {
+                    events 'passed', 'skipped', 'failed'
+                    exceptionFormat 'full'
+                }
+            }
+
+            // SpotBugs configuration
+            spotbugs {
+                effort = Effort.valueOf('MAX')
+                reportLevel = Confidence.valueOf('HIGH')
+                ignoreFailures = false
+            }
+
+            spotbugsMain {
+                reports {
+                    xml.required = true
+                    html.required = false
+                }
+            }
+
+            // Spotless configuration for license headers
+            spotless {
+                java {
+                    licenseHeaderFile rootProject.file('license_header.txt')
+                    target 'src/**/*.java'
+                }
+                format('properties') {
+                    licenseHeaderFile(rootProject.file('license_header.txt'), '(^[a-zA-Z])')
+
+                    // transform C-style header in `*.properties` to `#`-comments
+                    replaceRegex('Convert C-style block start to properties comment', '(?m)^\\s*/\\*', '##')
+                    replaceRegex('Remove C-style block end in properties files', '(?m)^\\s*\\Q*/\\E\\s*$', '##')
+                    replaceRegex('Convert C-style block asterisk lines to properties comment', '(?m)^\\s*\\* ?', '# ')
+
+                    target('src/**/*.properties')
+                }
+                format('asciidoc') {
+                    target '**/*.adoc'
+                    targetExclude("**/node_modules/**", "**/lib/**", "**/build/**")
+                    licenseHeaderFile(rootProject.file('license_header.txt'), '^[=\\[]')
+                    // transform C-style header to asciidoc block comments
+                    replaceRegex 'Convert C-style block start to asciidoc block comment start', '^/\\*', '////'
+                    replaceRegex 'Convert C-style block end to asciidoc block comment end', '^ \\*/', '////\n'
+                    replaceRegex 'Remove asterisk prefixes', '^ \\* ?', ''
+                }
+            }
+
+            // Maven publishing configuration
+            publishing {
+                publications {
+                    maven(MavenPublication) {
+                        from components.java
+
+                        final String groupIdForParent = group
+                        final String versionForParent = version
+
+                        pom.withXml {
+                            asNode().appendNode('parent').with {
+                                appendNode('groupId', groupIdForParent)
+                                appendNode('artifactId', 'base-parent')
+                                appendNode('version', versionForParent)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        tasks.named('cyclonedxDirectBom') {
+            jsonOutput.set(rootProject.file("build/${project.name}-cyclonedx/cyclonedx.json"))
+            xmlOutput.unsetConvention()
+
+            includeBuildSystem = false
+
+            externalReferences = [
+                new ExternalReference(type: ExternalReference.Type.VCS, url: "https://git.geta12.com")
+            ]
+        }
+
+        tasks.named('assemble') {
+            dependsOn tasks.named('cyclonedxDirectBom')
+        }
+
+        // Apply common artifacts and POM configuration to all publications
+        afterEvaluate {
+            publishing {
+                publications.all { publication ->
+                    // Add CycloneDX SBOM as artifact
+                    artifact(tasks.named('cyclonedxDirectBom').get().jsonOutput) {
+                        classifier = 'cyclonedx'
+                        extension = 'json'
+                    }
+
+                    // Add LICENSE file as artifact
+                    artifact(rootProject.file('LICENSE')) {
+                        classifier = 'license'
+                        extension = 'txt'
+                    }
+
+                    // Add NOTICE file as artifact
+                    artifact(rootProject.file('NOTICE')) {
+                        classifier = 'notice'
+                        extension = 'txt'
+                    }
+
+                    pom {
+                        licenses {
+                            license {
+                                name = 'EUPL-1.2 OR LicenseRef-Commercial'
+                                comments = 'See LICENSE artifact published alongside this module'
+                            }
+                        }
+
+                        organization {
+                            name = 'mgm technology partners GmbH'
+                            url = 'https://www.mgm-tp.com'
+                        }
+
+                        inceptionYear = '2012'
+
+                        description = project.description
+
+                        properties = [
+                            'project.build.sourceEncoding'    : 'UTF-8',
+                            'project.reporting.outputEncoding': 'UTF-8'
+                        ]
+                    }
+                }
+            }
+        }
+
+        tasks.named('deploy') {
+            dependsOn tasks.named('publish')
+        }
+    }
+}
+
+tasks.register('configurePnpm', LeadingBuildTask) {
+    final Path installDir = Paths.get("${rootDir}/.npm")
+
+    doLast {
+        if (System.getenv('CI')) {
+            println "Installing $pnpmVersion"
+
+            Files.createDirectories(installDir)
+
+            execCommandLine 'npm', 'install', '-g', '--prefix', installDir.toString(), pnpmVersion
+        } else {
+            final def os = System.getProperty('os.name').toLowerCase()
+            final def pnpmCommand = os.contains('win') ? 'where pnpm' : 'which pnpm'
+            final def result = pnpmCommand.execute().text.trim()
+
+            if (result) {
+                println "pnpm is available at: $result"
+            } else {
+                throw new GradleException("pnpm is not installed on your system. Please install with 'npm install -g $pnpmVersion'")
+            }
+        }
+    }
+}
+
+tasks.register('installDependencies', LeadingBuildTask) {
+    dependsOn tasks.named('configurePnpm')
+    mustRunAfter tasks.named('setVersion')
+    doLast { execCommandLine 'pnpm', 'install' }
+}
+
+tasks.register('verify', LeadingBuildTask) {
+    dependsOn tasks.named('installDependencies')
+    doLast { execCommandLine 'node', '--run', 'verify' }
+}
+
+tasks.register('nodeClean', LeadingBuildTask) {
+    dependsOn tasks.named('installDependencies')
+    doLast { execCommandLine 'node', '--run', 'clean' }
+}
+
+tasks.register('nodeBuild', LeadingBuildTask) {
+    dependsOn tasks.named('verify')
+    doLast { execCommandLine 'node', '--run', 'build' }
+}
+
+tasks.register('nodeTest', LeadingBuildTask) {
+    mustRunAfter tasks.named('nodeBuild')
+    doLast { execCommandLine 'node', '--run', 'test' }
+}
+
+tasks.named('clean') {
+    dependsOn tasks.named('nodeClean')
+}
+
+tasks.named('assemble') {
+    dependsOn tasks.named('nodeBuild')
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('nodeTest')
+}
+
+tasks.register('setVersion', PackageJsonModifierTask) {
+    packageDirs = new YamlSlurper().parse(file('./pnpm-workspace.yaml')).packages
+        .collect({ file(it) }) + file('.')
+    change = Helper.createSetVersion(version)
+}

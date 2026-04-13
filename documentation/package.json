@@ -1,0 +1,26 @@
+{
+  "name": "@com.mgmtp.a12.base/base-dev-documentation-src",
+  "version": "29.4.0-SNAPSHOT",
+  "description": "AsciiDoc documentation for @com.mgmtp.a12.base/model-api-ts",
+  "author": "mgm technology partners",
+  "license": "(EUPL-1.2 OR LicenseRef-commercial)",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf ./build",
+    "build": "node src/convert.ts",
+    "compile": "tsc",
+    "watch": "tsc --watch"
+  },
+  "files": [
+    "src"
+  ],
+  "devDependencies": {
+    "@com.mgmtp.a12.devtools/tsconfig": "catalog:a12",
+    "@com.mgmtp.a12.base/base-model-api": "workspace:*",
+    "asciidoctor-highlight.js": "catalog:",
+    "asciidoctor": "catalog:",
+    "highlight.js": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
+  }
+}

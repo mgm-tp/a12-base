@@ -1,0 +1,31 @@
+description = 'A12 Base Bundle - aggregates all base modules'
+
+dependencies {
+    api project(':model-api')
+    api project(':model-consistency')
+    api project(':model-marshalling')
+    api project(':model-migration-api')
+    api project(':fs-model-repository')
+    api project(':model-utils')
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'base-bundle'
+            pom {
+                name = 'A12 Base Bundle'
+                description = 'Aggregates all base modules. DEPRECATED since 29.1.1 - use individual modules instead.'
+            }
+        }
+    }
+}
+
+// Disables the gradle module metadata generation for this project.
+// Consumers currently use this bundle as a Gradle platform (bom),
+// but the generated metadata would mark it as a `java-library`,
+// which is correct but incompatible with their usage.
+// Will be resolved with A12-18132
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}

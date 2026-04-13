@@ -1,0 +1,14 @@
+description = 'model migration API'
+
+// No dependencies - this module has no dependencies beyond JDK
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'base-model-migration-api'
+            pom {
+                name = 'Model Migration API'
+            }
+        }
+    }
+}

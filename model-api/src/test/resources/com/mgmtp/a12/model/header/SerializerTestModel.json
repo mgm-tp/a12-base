@@ -1,0 +1,42 @@
+{
+  "id": "Test-Model-Id",
+  "modelType": "Test-Model-Type",
+  "modelVersion": "1.2.3",
+  "locales": [
+    {
+      "code": "de_DE"
+    }
+  ],
+  "labels": [
+    {
+      "locale": "de_DE",
+      "text": "Mein Label"
+    },
+    {
+      "locale": "en_US",
+      "text": ""
+    }
+  ],
+  "description": "Test model description",
+  "modelReferences": [
+    {
+      "purpose": "test-purpose",
+      "modelType": "test-type",
+      "alias": "test-alias",
+      "reference": "test-reference"
+    },
+    {
+      "modelType": "no-purpose-no-alias-test-type",
+      "reference": "no-purpose-no-alias-test-reference"
+    }
+  ],
+  "annotations": [
+    {
+      "name": "annotation-name",
+      "value": "annotation-value"
+    },
+    {
+      "name": "valueless-annotation-name"
+    }
+  ]
+}

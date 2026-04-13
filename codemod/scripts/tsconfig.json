@@ -1,0 +1,9 @@
+{
+	"extends": "@com.mgmtp.a12.devtools/devtools/configs/tsconfig",
+	"include": ["./*.ts"],
+	"compilerOptions": {
+		"noEmit": true,
+		"module": "NodeNext",
+		"lib": ["ESNext"]
+	}
+}

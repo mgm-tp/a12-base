@@ -1,0 +1,19 @@
+description = 'model consistency check API'
+
+dependencies {
+    api project(':model-api')
+    api libs.commons.lang3
+
+    testImplementation libs.testng
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'base-model-consistency'
+            pom {
+                name = 'model consistency API'
+            }
+        }
+    }
+}

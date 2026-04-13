@@ -1,0 +1,36 @@
+{
+  "name": "@com.mgmtp.a12.base/base-model-migration-api",
+  "version": "29.4.0-SNAPSHOT",
+  "description": "Model Migration API",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./lib/main/migration-tool/index.js",
+  "types": "./lib/main/migration-tool/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./lib cyclonedx.json",
+    "build": "node --run compile && node --run verify && typedoc",
+    "compile": "tsc",
+    "verify": "devtools verify-ts-compat tsconfig.check.json -p"
+  },
+  "author": "mgm technology partners",
+  "license": "(EUPL-1.2 OR LicenseRef-commercial)",
+  "devDependencies": {
+    "@com.mgmtp.a12.devtools/build-tools": "catalog:a12",
+    "@com.mgmtp.a12.devtools/tsconfig": "catalog:a12",
+    "@types/node": "catalog:",
+    "rimraf": "catalog:",
+    "typedoc-plugin-missing-exports": "catalog:",
+    "typedoc": "catalog:",
+    "typescript": "catalog:"
+  },
+  "files": [
+    "lib",
+    "!lib/test",
+    "src",
+    "!src/test",
+    "cyclonedx.json",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES",
+    "licenses"
+  ]
+}

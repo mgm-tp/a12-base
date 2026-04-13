@@ -1,0 +1,12 @@
+{
+	"extends": "@com.mgmtp.a12.devtools/tsconfig",
+	"include": ["src"],
+	"exclude": ["src/testData"],
+	"compilerOptions": {
+		"rootDir": "src",
+		"outDir": "lib",
+		"types": ["node"],
+		"skipLibCheck": true,
+		"noEmitOnError": false
+	}
+}

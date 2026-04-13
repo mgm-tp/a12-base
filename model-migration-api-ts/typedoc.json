@@ -1,0 +1,15 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "Model Migration API",
+  "out": "./target/doc",
+  "entryPoints": [
+    "./src/main/migration-tool"
+  ],
+  "readme": "./resources/typedoc/README.md",
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "plugin": [
+    "typedoc-plugin-missing-exports"
+  ]
+}

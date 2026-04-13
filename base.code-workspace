@@ -1,0 +1,63 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "base-bom"
+		},
+		{
+			"path": "base-parent"
+		},
+		{
+			"path": "base-bundle"
+		},
+		{
+			"path": "codemod"
+		},
+		{
+			"path": "documentation"
+		},
+		{
+			"path": "fs-model-repository"
+		},
+		{
+			"path": "model-api"
+		},
+		{
+			"path": "model-api-ts"
+		},
+		{
+			"path": "model-consistency"
+		},
+		{
+			"path": "model-marshalling"
+		},
+		{
+			"path": "model-migration-api"
+		},
+		{
+			"path": "model-migration-api-ts"
+		},
+		{
+			"path": "model-utils"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"base-bom": true,
+			"base-parent": true,
+			"base-bundle": true,
+			"codemod": true,
+			"documentation": true,
+			"fs-model-repository": true,
+			"model-api": true,
+			"model-api-ts": true,
+			"model-consistency": true,
+			"model-marshalling": true,
+			"model-migration-api": true,
+			"model-migration-api-ts": true,
+			"model-utils": true
+		}
+	}
+}

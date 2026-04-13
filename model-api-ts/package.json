@@ -1,0 +1,45 @@
+{
+  "name": "@com.mgmtp.a12.base/base-model-api",
+  "version": "29.4.0-SNAPSHOT",
+  "description": "Model API",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./lib/main/index.js",
+  "types": "./lib/main/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./lib ./target cyclonedx.json",
+    "build": "node --run compile && node --run verify && typedoc",
+    "test": "c8 mocha",
+    "compile": "tsc",
+    "verify": "devtools verify-ts-compat tsconfig.check.json -p"
+  },
+  "author": "mgm technology partners",
+  "license": "(EUPL-1.2 OR LicenseRef-commercial)",
+  "devDependencies": {
+    "@com.mgmtp.a12.devtools/build-tools": "catalog:a12",
+    "@com.mgmtp.a12.devtools/tsconfig": "catalog:a12",
+    "@com.mgmtp.a12.utils/utils-localization": "catalog:a12",
+    "@types/mocha": "catalog:",
+    "@types/node": "catalog:",
+    "c8": "catalog:",
+    "mocha": "catalog:",
+    "rimraf": "catalog:",
+    "source-map-support": "catalog:",
+    "typedoc-plugin-missing-exports": "catalog:",
+    "typedoc": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@com.mgmtp.a12.utils/utils-localization": "catalog:a12ranges"
+  },
+  "files": [
+    "lib",
+    "!lib/test",
+    "src",
+    "!src/test",
+    "cyclonedx.json",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES",
+    "licenses"
+  ]
+}

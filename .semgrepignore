@@ -1,0 +1,4 @@
+# see https://semgrep.dev/docs/ignoring-files-folders-code
+# the default is not suitable as we want to scan tests
+# files in .gitignore are already ignored
+.git

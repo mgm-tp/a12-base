@@ -1,0 +1,39 @@
+plugins {
+    id 'java-platform'
+}
+
+description = 'A12 Base Bill of Materials'
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+    // Shared Jackson libraries (BOM import)
+    api platform(libs.jackson.bom)
+
+    constraints {
+        // A12 dependencies
+        api project(':model-api')
+        api project(':model-consistency')
+        api project(':model-marshalling')
+        api project(':model-migration-api')
+        api project(':fs-model-repository')
+        api project(':model-utils')
+    }
+}
+
+publishing {
+    publications {
+        mavenBom(MavenPublication) {
+            from components.javaPlatform
+
+            artifactId = 'base-bom'
+
+            pom {
+                name = 'A12 Base Bom'
+                packaging = 'pom'
+            }
+        }
+    }
+}

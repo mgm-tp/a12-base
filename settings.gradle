@@ -1,0 +1,80 @@
+pluginManagement {
+    plugins {
+        id 'com.github.spotbugs' version '6.4.8'
+        id 'org.cyclonedx.bom' version '3.0.1'
+        id 'com.diffplug.spotless' version '8.1.0'
+    }
+}
+
+enableFeaturePreview 'STABLE_CONFIGURATION_CACHE'
+
+rootProject.name = 'base'
+
+include(
+    ':base-bom',
+    ':base-parent',
+    ':base-bundle',
+    ':model-api',
+    ':model-api-ts',
+    ':model-migration-api',
+    ':model-migration-api-ts',
+    ':model-marshalling',
+    ':model-utils',
+    ':model-consistency',
+    ':fs-model-repository',
+    ':documentation',
+    ':codemod'
+)
+
+if (file('security').exists()) {
+    include('security')
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            version('groovy-yaml', '5.0.3')
+            version('jackson', '2.20.1')
+            version('commons-lang3', '3.20.0')
+            version('commons-io', '2.21.0')
+            version('testng', '7.11.0')
+            version('jsonassert', '1.5.3')
+            version('equalsverifier', '4.3')
+            version('spotbugs-plugin', '6.4.8')
+            version('cyclonedx-plugin', '3.1.0')
+            version('spotless-plugin', '8.1.0')
+            version('build-utilities', '0.3.0')
+            version('asciidoctor-plugin', '4.0.5')
+
+            library('groovy-yaml', 'org.apache.groovy', 'groovy-yaml').versionRef('groovy-yaml')
+            library('jackson-bom', 'com.fasterxml.jackson', 'jackson-bom').versionRef('jackson')
+            library('jackson-core', 'com.fasterxml.jackson.core', 'jackson-core').withoutVersion()
+            library('jackson-databind', 'com.fasterxml.jackson.core', 'jackson-databind').withoutVersion()
+            library('jackson-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').withoutVersion()
+            library('commons-lang3', 'org.apache.commons', 'commons-lang3').versionRef('commons-lang3')
+            library('commons-io', 'org.apache.commons', 'commons-io').versionRef('commons-io')
+            library('testng', 'org.testng', 'testng').versionRef('testng')
+            library('jsonassert', 'org.skyscreamer', 'jsonassert').versionRef('jsonassert')
+            library('equalsverifier', 'nl.jqno.equalsverifier', 'equalsverifier').versionRef('equalsverifier')
+            library('spotbugs-plugin', 'com.github.spotbugs.snom', 'spotbugs-gradle-plugin').versionRef('spotbugs-plugin')
+            library('cyclonedx-plugin', 'org.cyclonedx', 'cyclonedx-gradle-plugin').versionRef('cyclonedx-plugin')
+            library('spotless-plugin', 'com.diffplug.spotless', 'spotless-plugin-gradle').versionRef('spotless-plugin')
+            library('build-utilities', 'com.mgmtp.a12.devtools.plugins', 'build-utilities').versionRef('build-utilities')
+
+            plugin('spotbugs', 'com.github.spotbugs').versionRef('spotbugs-plugin')
+            plugin('cyclonedx', 'org.cyclonedx.bom').versionRef('cyclonedx-plugin')
+            plugin('spotless', 'com.diffplug.spotless').versionRef('spotless-plugin')
+            plugin('asciidoctor', 'org.asciidoctor.jvm.convert').versionRef('asciidoctor-plugin')
+        }
+
+        if (file('publish').exists()) {
+            a12Libs {
+                version('artifact-publish', '0.4.0-rc.1')
+                version('devtools-deploy', '0.5.5')
+
+                library('artifact-publish-plugin', 'com.mgmtp.a12.bd.artifact-publish', 'com.mgmtp.a12.bd.artifact-publish.gradle.plugin').versionRef('artifact-publish')
+                library('devtools-deploy-plugin', 'com.mgmtp.a12.devtools.plugins.deployment', 'com.mgmtp.a12.devtools.plugins.deployment.gradle.plugin').versionRef('devtools-deploy')
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+description = 'The default filesystem implementation for the model repository API'
+
+dependencies {
+    api project(':model-api')
+    api project(':model-marshalling')
+    api libs.commons.lang3
+
+    testImplementation libs.testng
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'base-fs-model-repository'
+            pom {
+                name = 'filesystem-model-repository'
+            }
+        }
+    }
+}

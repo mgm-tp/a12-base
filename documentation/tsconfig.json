@@ -1,0 +1,9 @@
+{
+	"extends": "@com.mgmtp.a12.devtools/tsconfig",
+	"include": ["src"],
+	"compilerOptions": {
+		"types": ["node"],
+		"noEmit": true,
+		"skipLibCheck": true
+	}
+}

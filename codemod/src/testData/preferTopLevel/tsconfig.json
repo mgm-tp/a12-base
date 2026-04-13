@@ -1,0 +1,8 @@
+{
+	"extends": "@com.mgmtp.a12.devtools/devtools/configs/tsconfig",
+	"include": ["./imports.ts"],
+	"compilerOptions": {
+		"noEmit": true,
+		"noCheck": true
+	}
+}

@@ -1,0 +1,165 @@
+////
+SPDX-License-Identifier: EUPL-1.2 OR LicenseRef-commercial
+
+Copyright (c) 2012-2026 mgm technology partners GmbH
+
+Dual License
+------------
+This source file is part of the mgm A12 Platform and available under
+a choice of two different licenses:
+
+1. Open-Source License – EUPL v1.2
+   You may redistribute and/or modify this file under the terms of the
+   European Union Public License, version 1.2 - see https://eupl.eu/.
+
+2. Commercial License
+   Alternatively, you may obtain a commercial license from
+   mgm technology partners GmbH, that permits use of this software
+   under different terms (including support and maintenance services).
+
+   Please contact a12-license@mgm-tp.com for more information.
+
+You must select and comply with exactly one of the above license options.
+
+Warranty Disclaimer (applies to either option)
+----------------------------------------------
+THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
+LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
+////
+
+= Migration Instructions
+
+== 2025.06-ext4
+
+=== Deprecation
+
+==== Deep import paths of A12 Base npm packages
+
+Nested imports from the npm packages `@com.mgmtp.a12.base/base-model-api` and `@com.mgmtp.a12.base/base-model-migration-api` (e.g. `@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js`)
+are now deprecated in favor of top-level imports to avoid unnecessary breaking changes and reduce ongoing maintenance effort.
+
+The ability to use the old-style ("long") imports will be removed in the next breaking release.
+
+To migrate, first install or update the codemod with your preferred package manager, e.g. with `pnpm`:
+[source,bash]
+----
+pnpm install -g @com.mgmtp.a12.base/base-codemod
+----
+
+Then run the specific recipe:
+[source,bash]
+----
+base-codemod preferTopLevel <path to directory with tsconfig.json>
+
+// or as a single command
+pnpx @com.mgmtp.a12.base/base-codemod preferTopLevel <path to directory with tsconfig.json>
+----
+
+For further details, run the codemod with the `--help` flag.
+
+==== Deprecation of base-parent
+
+The `base-parent` java artifact has been deprecated.
+Please use the new artifact `base-bom` as Gradle java platform / Maven bom, when you want to manage the versions of used base libraries.
+
+In the new `base-bom`, the versions for apache.commons.lang3 and apache.commons.io are no longer managed compared to `base-parent`.
+
+This was done because apache.commons.lang3 is actually only a runtime dependency of the base libraries, that is currently provided with compile-time scope only by accident.
+The apache.commons.io library is not used by any base library at all anymore.
+
+If you use these apache libraries in your project, please add them as direct dependencies with the versions you need.
+
+==== Deprecation of base-bundle
+
+The `base-bundle` java artifact has been deprecated without replacement.
+
+If you used it as java-platform / bom in your build setup, please also use the new `base-bom` now.
+
+If you have used it to get access to the bundled base libraries, now please configure the specific base libraries you need as direct dependency.
+
+==== Future Scope Changes of Base Library Dependencies
+
+As a heads-up, in a future breaking release we plan to correct the scope of the following dependencies of the base libraries to better reflect their actual usage:
+
+|===
+|base library |dependency |scope change
+
+.2+|base-fs-model-repository
+|base-model-marshalling
+|compile-time -> runtime
+
+|apache.commons.lang3
+|compile-time -> test-time
+
+|base-model-api
+|apache.commons.lang3
+|compile-time -> runtime
+
+|base-model-consistency
+|apache.commons.lang3
+|compile-time -> runtime
+
+|base-model-marshalling
+|apache.commons.lang3
+|compile-time -> dependency will be removed, since it isn't used here.
+|===
+
+If you use one of these base libraries, you might rely on the fact, that the listed dependencies are currently made available via base at compile-time.
+Maybe you use them without declaring them as your own dependencies.
+Please consider adding them directly to your dependency configuration now.
+
+== 2025.06
+
+=== Breaking Changes
+
+==== Migration to ESM
+
+The npm artifacts `@com.mgmtp.a12.base/base-model-api` and `@com.mgmtp.a12.base/base-model-migration-api` were migrated from CommonJS to link:https://nodejs.org/api/esm.html#modules-ecmascript-modules[ESM].
+When using Node `22.12+` and modern build tools, there should be no changes necessary to your bundler setup.
+
+Migrating your own application to ESM is not required, but recommended.
+Consult the documentation of your bundler for specifics.
+
+==== Updating to ES2024
+
+The javascript output of the npm artifacts was updated from `ES2020` to `ES2024` to be able to use latest language features.
+When using supported browsers, there is no change necessary.
+If support for older browsers is required, make sure to include necessary polyfills.
+
+==== Drop Java 17 Support
+
+The Base java libraries are now compiled with and for Java 21.
+
+==== Removed Severity
+
+The deprecated class `com.mgmtp.a12.model.consistency.Severity` has been removed now and can be replaced with `com.mgmtp.a12.model.notification.Severity`.
+
+==== Problem Code Restructuring
+
+The class `com.mgmtp.a12.model.consistency.Problem` was renamed to `com.mgmtp.a12.model.consistency.ConsistencyProblem`.
+
+This was done to allow for a new interface `com.mgmtp.a12.model.consistency.Problem`, which has the `ConsistencyProblem` class as its default implementation.
+
+This interface, resembling the functionality of the former `Problem` class, now extends the interface `com.mgmtp.a12.model.notification.RankedNotification`.
+
+With this, classes implementing the new `com.mgmtp.a12.model.consistency.Problem` interface now have the new property `source` of type Object, which allows to describe the source of the Problem.
+Also, for the severity property, the type `com.mgmtp.a12.model.notification.Severity` is used now.
+
+The constructors of `ConsistencyProblem`(former class `Problem`) have been adapted and now require the source as third parameter.
+
+If you referred to `Problem` as type in your code, nothing should change.
+
+If you however extended the former class `Problem` or created new `Problem` instances, you now could use `ConsistencyProblem` and provide the problem source as third constructor parameter.
+
+There is no code mod provided, since we assume there is no wide usage of this code.
+
+==== ConsistencyStatus Converted to Record
+
+The class `com.mgmtp.a12.model.consistency.ConsistencyStatus` was converted to a Java Record.
+
+With this, the getter for the `problems` property is changed from `getProblems()` to just `problems()`.
+
+There is no code mod provided, since we assume internal usage only.

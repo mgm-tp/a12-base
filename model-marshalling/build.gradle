@@ -1,0 +1,17 @@
+description = 'model marshalling'
+
+dependencies {
+    api project(':model-api')
+    api libs.commons.lang3
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'base-model-marshalling'
+            pom {
+                name = 'Model Marshalling'
+            }
+        }
+    }
+}
