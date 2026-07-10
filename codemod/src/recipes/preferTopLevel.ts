@@ -37,13 +37,9 @@ import {
 } from "@com.mgmtp.a12.devtools/codemod";
 
 const packageName = "@com.mgmtp.a12.base/base-model-api";
-const migrationPackageName = "@com.mgmtp.a12.base/base-model-migration-api";
 
 const migrationConfig: ImportMigrationConfiguration = {
-	pathMigrations: [
-		{ from: `${migrationPackageName}/lib/**`, to: migrationPackageName },
-		{ from: `${packageName}/lib/**`, to: packageName }
-	]
+	pathMigrations: [{ from: `${packageName}/lib/**`, to: packageName }]
 };
 
 export const preferTopLevelImportsRecipe: Recipe = {

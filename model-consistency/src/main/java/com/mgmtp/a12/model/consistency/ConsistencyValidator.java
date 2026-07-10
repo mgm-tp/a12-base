@@ -33,97 +33,54 @@ package com.mgmtp.a12.model.consistency;
 
 
 import com.mgmtp.a12.model.Model;
-import com.mgmtp.a12.model.consistency.rules.ModelConsistencyRule;
-import com.mgmtp.a12.model.consistency.rules.RuleExecutor;
 import com.mgmtp.a12.model.data.document.ModelResolver;
 
-import org.apache.commons.lang3.Validate;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Provides the entry point for performing consistency checks for all kinds of A12 models. These checks can be executed
+ * Base class for performing consistency checks for all kinds of A12 models. These checks can be executed
  * on single models as well as on a set of models to make sure that no models have references to models outside this
  * set.
+ *
+ * @param <M> the specific model type extending {@link Model}
  */
-@SuppressWarnings("rawtypes")
-public class ConsistencyValidator {
+public abstract class ConsistencyValidator<M extends Model> {
 
 	private final ModelResolver modelResolver;
-	private final List<CustomConsistencyRule> customRules = new ArrayList<>();
 
 	/**
 	 * Constructor for initializing the consistency validator with a {@link ModelResolver}
 	 *
 	 * @param modelResolver instance of {@link ModelResolver}, may not be null
 	 */
-	public ConsistencyValidator(final ModelResolver modelResolver) {
-		Objects.requireNonNull(modelResolver);
-		this.modelResolver = modelResolver;
+	protected ConsistencyValidator(final ModelResolver modelResolver) {
+		this.modelResolver = Objects.requireNonNull(modelResolver, "ModelResolver may not be null");
+	}
+
+	/**
+	 * Provides access to the {@link ModelResolver} for subclasses to resolve models during validation.
+	 *
+	 * @return the {@link ModelResolver} instance
+	 */
+	protected ModelResolver getModelResolver() {
+		return modelResolver;
 	}
 
 	/**
 	 * Performs the consistency check for a single model.
 	 *
 	 * @param model the {@link Model} to check, may not be null
-	 * @return {@link ConsistencyStatus} containing a list of all {@link Problem}s
+	 * @return list of {@link Problem}s, empty if valid
 	 */
-	public ConsistencyStatus validate(final Model model) {
-		Objects.requireNonNull(model, "The model to be validated may not be null.");
-
-		final RuleExecutor ruleExecutor = initializeRuleExecutor();
-		return generateValidationStatus(validateSingleModel(ruleExecutor, model));
-	}
+	public abstract List<Problem> validate(M model);
 
 	/**
 	 * Performs the consistency check for a collection of models.
 	 *
 	 * @param models collection of {@link Model}s which may not be null or empty
-	 * @return {@link ConsistencyStatus} containing a list of all {@link Problem}s for all models
+	 * @return list of {@link Problem}s for all models, empty if all are valid
 	 */
-	public ConsistencyStatus validateSet(final Collection<Model> models) {
-		Validate.notEmpty(models, "The collection of models may not be empty");
-
-		final RuleExecutor ruleExecutor = initializeRuleExecutor();
-
-		final List<Problem> problems = new ArrayList<>();
-		for (final Model model : models) {
-			problems.addAll(validateSingleModel(ruleExecutor, model));
-		}
-		return generateValidationStatus(problems);
-	}
-
-	public void addCustomRule(final CustomConsistencyRule<? extends Model> customRule) {
-		Objects.requireNonNull(customRule);
-		this.customRules.add(customRule);
-	}
-
-	public void addCustomRules(final Collection<CustomConsistencyRule> customRules) {
-		Objects.requireNonNull(customRules);
-		this.customRules.addAll(customRules);
-	}
-
-	private RuleExecutor initializeRuleExecutor() {
-		return new RuleExecutor(modelResolver, customRules);
-	}
-
-	private List<Problem> validateSingleModel(final RuleExecutor ruleExecutor, final Model model) {
-		return ruleExecutor.validateModel(model);
-	}
-
-	private static ConsistencyStatus generateValidationStatus(final List<Problem> problems) {
-		return problems.isEmpty()
-			? new ConsistencyStatus(true, problems)
-			: new ConsistencyStatus(false, problems);
-	}
-
-	public interface CustomConsistencyRule<T extends Model> {
-
-		<T extends Model> Class<T> getModelType();
-
-		ModelConsistencyRule<T> getRule();
-	}
+	public abstract List<Problem> validateSet(Collection<M> models);
 }

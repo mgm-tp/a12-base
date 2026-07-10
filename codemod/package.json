@@ -1,13 +1,13 @@
 {
   "name": "@com.mgmtp.a12.base/base-codemod",
-  "version": "29.4.0-SNAPSHOT",
+  "version": "30.0.1",
   "description": "Base Codemod",
   "author": "mgm technology partners",
   "license": "(EUPL-1.2 OR LicenseRef-commercial)",
   "bin": "lib/cli.js",
   "type": "module",
   "scripts": {
-    "clean": "rimraf ./lib",
+    "clean": "git clean -fx .",
     "build": "node --run compile",
     "compile": "tsc",
     "watch": "tsc --watch",
@@ -18,7 +18,6 @@
   "devDependencies": {
     "@com.mgmtp.a12.devtools/tsconfig": "catalog:a12",
     "@types/node": "catalog:",
-    "rimraf": "catalog:",
     "typescript": "catalog:"
   },
   "dependencies": {
@@ -36,5 +35,6 @@
     "NOTICE",
     "THIRD_PARTY_NOTICES",
     "licenses"
-  ]
+  ],
+  "exports": null
 }

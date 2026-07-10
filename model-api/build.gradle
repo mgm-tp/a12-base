@@ -6,7 +6,8 @@ dependencies {
     api libs.jackson.core
     api libs.jackson.annotations
     api libs.jackson.databind
-    api libs.commons.lang3
+
+    implementation libs.commons.lang3
 
     testImplementation libs.testng
     testImplementation libs.jsonassert

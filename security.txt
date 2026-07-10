@@ -1,5 +1,5 @@
-Contact: https://a12support.mgm-tp.com
-Preferred-Languages: en, de
+Contact: mailto:hello.a12@mgm-tp.com
+Expires: 2027-12-31T00:00:00.000Z
+Preferred-Languages: de, en
 Canonical: https://geta12.com/.well-known/security.txt
-Hiring: https://jobs.mgm-tp.com
-Expires: 2026-12-31T23:59:59Z
+Policy: https://gitlab.opencode.de/mgm-tp/a12/a12overview/-/blob/main/SECURITY.md

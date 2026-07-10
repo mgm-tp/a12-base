@@ -35,8 +35,11 @@ import com.mgmtp.a12.model.Content;
 import com.mgmtp.a12.model.Model;
 import com.mgmtp.a12.model.header.Header;
 
+import java.io.Serial;
+
 public class TestModel implements Model {
 
+	@Serial
 	private static final long serialVersionUID = 3113866675087890745L;
 
 	private TestContent content = new TestContent();

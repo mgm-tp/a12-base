@@ -31,28 +31,35 @@
  */
 package com.mgmtp.a12.model.header;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
-import java.io.IOException;
+import static com.mgmtp.a12.model.header.JacksonConfiguration.HEADER_OBJECT_MAPPER;
 
-public class DefaultHeaderParser implements HeaderParser {
+public class DefaultHeaderParser extends StdDeserializer<Header> implements HeaderParser {
+
+	public DefaultHeaderParser() {
+		super(Header.class);
+	}
 
 	@Override
 	public Header parseJson(final String modelJson) throws HeaderParseException {
 		try {
-			final Header header =
-				JacksonConfiguration.configureMixins(new ObjectMapper())
-					.readValue(modelJson, ModelWithHeader.class)
-					.getHeader();
-
+			final Header header = HEADER_OBJECT_MAPPER.readValue(modelJson, ModelWithHeader.class).getHeader();
 			if (header != null) {
 				return header;
 			} else {
 				throw new HeaderParseException("Could not find header property in model json");
 			}
-
-		} catch (final IOException ioe) {
-			throw new HeaderParseException(ioe);
+		} catch (final JacksonException je) {
+			throw new HeaderParseException(je);
 		}
+	}
+
+	@Override
+	public Header deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
+		return HEADER_OBJECT_MAPPER.readValue(p, Header.class);
 	}
 }

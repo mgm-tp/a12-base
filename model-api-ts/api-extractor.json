@@ -1,0 +1,41 @@
+{
+	"mainEntryPointFilePath": "<projectFolder>/lib/main/index.d.ts",
+	"apiReport": {
+		"enabled": true,
+		"reportFolder": "<projectFolder>",
+		"reportTempFolder": "<projectFolder>/target/api"
+	},
+	"docModel": {
+		"enabled": false
+	},
+	"dtsRollup": {
+		"enabled": false,
+    "untrimmedFilePath": "<projectFolder>/lib/api.d.ts"
+	},
+	"tsdocMetadata": {
+		"enabled": false
+	},
+	"messages": {
+		"compilerMessageReporting": {
+			"default": {
+				"logLevel": "warning"
+			}
+		},
+		"extractorMessageReporting": {
+			"default": {
+				"logLevel": "warning"
+			},
+			"ae-missing-release-tag": {
+				"logLevel": "none"
+			},
+			"ae-unresolved-link": {
+				"logLevel": "none"
+			}
+		},
+		"tsdocMessageReporting": {
+			"default": {
+				"logLevel": "none"
+			}
+		}
+	}
+}

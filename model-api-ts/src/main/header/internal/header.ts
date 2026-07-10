@@ -30,7 +30,7 @@
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
 
-import type { LocalizedModelText } from "@com.mgmtp.a12.utils/utils-localization/lib/main/index.js";
+import type { LocalizedModelText } from "@com.mgmtp.a12.utils/utils-localization";
 
 /**
  * Contains common header information for all types of A12 models.

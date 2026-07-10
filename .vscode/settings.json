@@ -1,24 +1,26 @@
 {
-  "[asciidoc][markdown]": {
-    "editor.quickSuggestions": {
-      "comments": "off",
-      "strings": "off",
-      "other": "off"
-    },
-    "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 80
-  },
-  "editor.parameterHints.enabled": true,
-  "editor.rulers": [80, 120],
-  "path-intellisense.extensionOnImport": false,
-  "testExplorer.mergeSuites": true,
-  "typescript.format.enable": true,
-  "typescript.tsdk": "./model-api-ts/node_modules/typescript/lib",
-  "typescript.validate.enable": true,
-  "typescript.preferences.importModuleSpecifierEnding": "js",
-  "[javascript][typescript][jsonc]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll.eslint"]
+	"[asciidoc][markdown]": {
+		"editor.quickSuggestions": {
+			"comments": "off",
+			"strings": "off",
+			"other": "off"
+		},
+		"editor.wordWrap": "wordWrapColumn",
+		"editor.wordWrapColumn": 80
+	},
+	"editor.parameterHints.enabled": true,
+	"editor.rulers": [80, 120],
+	"path-intellisense.extensionOnImport": false,
+	"testExplorer.mergeSuites": true,
+	"js/ts.validate.enabled": true,
+	"js/ts.preferences.importModuleSpecifierEnding": "js",
+	"js/ts.tsdk.path": "./model-api-ts/node_modules/typescript/lib",
+	"[javascript][typescript][jsonc]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll.eslint"],
+	"eslint.options": {
+		"flags": ["unstable_native_nodejs_ts_config"]
+	}
 }

@@ -11,6 +11,10 @@ trim_trailing_whitespace = false
 [*.{json,yaml}]
 indent_style = space
 indent_size = 2
+insert_final_newline = false
+
+[package.json]
+insert_final_newline = true
 
 [*.{xml,xsd,gradle,groovy}]
 indent_style = space

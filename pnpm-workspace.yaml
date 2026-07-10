@@ -1,43 +1,37 @@
-
 packages:
   - codemod
   - documentation
   - model-api-ts
-  - model-migration-api-ts
 
 catalog:
-  '@types/mocha': 10.0.10
+  '@microsoft/api-extractor': 7.57.7
   '@types/node': 24.10.4
-  asciidoctor-highlight.js: 0.4.0
   asciidoctor: 3.0.4
-  highlight.js: 11.11.1
-  c8: 10.1.3
-  eslint: 9.39.2
+  asciidoctor-highlight.js: 0.4.0
+  eslint: 9.39.3
   eslint-plugin-mocha: 11.2.0
-  eslint-plugin-notice: 1.0.0
-  eslint-plugin-workspaces: 0.11.1
-  mocha: 11.7.5
-  prettier: 3.7.4
-  rimraf: 6.1.2
-  source-map-support: 0.5.21
-  typedoc: 0.28.15
+  eslint-plugin-notice: 1.1.0-rc1
+  eslint-plugin-workspaces: 0.12.1
+  highlight.js: 11.11.1
+  prettier: 3.8.1
+  typedoc: 0.28.18
   typedoc-plugin-missing-exports: 4.1.2
-  typescript: 5.9.3
+  typescript: 6.0.3
 
 catalogs:
   # all a12 dependencies should be listed here (regardless of how many workspaces use them)
   # this is done to have a single 'entry point' for upgrading a12
   a12:
-    '@com.mgmtp.a12.devtools/build-tools': 1.1.0
-    '@com.mgmtp.a12.devtools/codemod': 2.1.0
-    '@com.mgmtp.a12.devtools/eslint-config': 3.1.0
-    '@com.mgmtp.a12.devtools/prettier-config': 1.1.0
-    '@com.mgmtp.a12.devtools/tsconfig': 1.1.0
-    '@com.mgmtp.a12.utils/utils-localization': 7.2.0
+    '@com.mgmtp.a12.devtools/build-tools': 1.1.2
+    '@com.mgmtp.a12.devtools/codemod': 2.2.2
+    '@com.mgmtp.a12.devtools/eslint-config': 3.1.2
+    '@com.mgmtp.a12.devtools/prettier-config': 1.1.1
+    '@com.mgmtp.a12.devtools/tsconfig': 2.0.1
+    '@com.mgmtp.a12.utils/utils-localization': 8.0.1
 
   # versions here should only be upgraded when necessary!
   a12ranges:
-    '@com.mgmtp.a12.utils/utils-localization': ^7.2.0
+    '@com.mgmtp.a12.utils/utils-localization': ^8.0.1
 
   ranges:
     ts-morph: ^27.0.2
@@ -57,20 +51,29 @@ failIfNoMatch: true
 # do not check git status when publishing
 gitChecks: false
 
-allowBuilds:
-  esbuild: false
+ignoredBuiltDependencies:
+  - esbuild
+
+ignoredOptionalDependencies:
+  - libxmljs2
 
 # CI sets this to warn by default
 loglevel: info
 
 # prevent pnpm >10 from self-upgrading,
 # since it doesn't use the global node_modules as target
-pmOnFail: ignore
+managePackageManagerVersions: false
 
 # enforce new packages to be at least 1 week old, except our own
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
   - '@com.mgmtp.a12.*/*'
+
+overrides:
+  lodash: ">=4.17.24"
+  "diff@>=6.0.0": ">=8.0.3" # latest mocha (11.7.5) still depends on diff ^7.0.0
+  serialize-javascript: ">7.0.2" # latest mocha (11.7.5) depends on serialize-javascript ^6.0.2
+packageManagerStrict: true
 
 # allow conflicting peer dependencies for A12 packages
 peerDependencyRules:
@@ -82,6 +85,8 @@ peerDependencyRules:
 # ensure latest deps are installed when updating for audit
 resolutionMode: highest
 
+# ensure dependency build scripts (e.g. postinstall) are either ignored or approved
+strictDepBuilds: true
 strictPeerDependencies: true
 
 # do not install packages where trust level decreased

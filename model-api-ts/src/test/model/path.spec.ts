@@ -31,6 +31,7 @@
  */
 
 import { deepStrictEqual, ok, strictEqual } from "node:assert/strict";
+import { describe, it } from "node:test";
 
 import { ModelPath } from "../../main/model/index.js";
 

@@ -4,28 +4,29 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Debug codemod commands",
+			"name": "Debug codemod recipes",
 			"skipFiles": ["<node_internals>/**"],
 			"args": [
-				"${input:pickCommand}",
-				"${workspaceFolder}/src/testData/${input:pickCommand}/${input:tsConfigName}.json"
+				"${input:pickRecipe}",
+				"${workspaceFolder}/src/testData/${input:pickRecipe}/${input:tsConfigName}.json",
+				"--no-git-check"
 			],
 			"program": "${workspaceFolder}/lib/cli.js"
 		}
 	],
 	"inputs": [
 		{
-			"id": "pickCommand",
+			"id": "pickRecipe",
 			"type": "pickString",
-			"description": "Select a specific codemod command",
-			// when adding new Codemod commands, add them as option here
+			"description": "Select a specific codemod recipe",
+			// when adding new Codemod recipes, add them as option here
 			"options": ["preferTopLevel"],
 			"default": "preferTopLevel"
 		},
 		{
 			"id": "tsConfigName",
 			"type": "promptString",
-			"description": "Enter the name of the tsconfig that should be used for the command",
+			"description": "Enter the name of the tsconfig that should be used for the recipe",
 			"default": "tsconfig"
 		}
 	]

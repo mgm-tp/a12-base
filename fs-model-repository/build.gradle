@@ -2,9 +2,10 @@ description = 'The default filesystem implementation for the model repository AP
 
 dependencies {
     api project(':model-api')
-    api project(':model-marshalling')
-    api libs.commons.lang3
 
+    implementation project(':model-marshalling')
+
+    testImplementation libs.commons.lang3
     testImplementation libs.testng
 }
 

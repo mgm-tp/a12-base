@@ -31,18 +31,30 @@
  */
 package com.mgmtp.a12.model.header;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
-public class DefaultHeaderJsonSerializer implements HeaderJsonSerializer {
+import static com.mgmtp.a12.model.header.JacksonConfiguration.HEADER_OBJECT_MAPPER;
+
+public class DefaultHeaderJsonSerializer extends StdSerializer<Header> implements HeaderJsonSerializer {
+
+	public DefaultHeaderJsonSerializer() {
+		super(Header.class);
+	}
 
 	@Override
 	public String toJsonString(final Header header) {
 		try {
-			return JacksonConfiguration.configureMixins(new ObjectMapper())
-				.writeValueAsString(header);
-		} catch (final JsonProcessingException jpe) {
+			return HEADER_OBJECT_MAPPER.writeValueAsString(header);
+		} catch (final JacksonException jpe) {
 			throw new RuntimeException("Error serializing the header object", jpe);
 		}
+	}
+
+	@Override
+	public void serialize(Header value, JsonGenerator gen, SerializationContext ctxt) throws JacksonException {
+		HEADER_OBJECT_MAPPER.writeValue(gen, value);
 	}
 }

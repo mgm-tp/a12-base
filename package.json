@@ -1,14 +1,14 @@
 {
   "name": "@com.mgmtp.a12.base/root",
-  "version": "29.4.0-SNAPSHOT",
-  "a12ReleaseLine": "2025.06",
+  "version": "30.0.1",
+  "a12ReleaseLine": "2026.06",
   "description": "Base Workspaces Root",
   "author": "mgm technology partners",
   "type": "module",
   "license": "(EUPL-1.2 OR LicenseRef-commercial)",
   "engines": {
     "node": "^24",
-    "pnpm": "^11"
+    "pnpm": ">=10.6"
   },
   "private": true,
   "scripts": {
@@ -20,10 +20,10 @@
     "test": "pnpm run -r test",
     "format": "prettier \"**/src/**/*.{ts,tsx}\" --check --cache --cache-strategy metadata",
     "format:fix": "prettier \"**/src/**/*.{ts,tsx}\" --check -w",
-    "lint": "eslint . --cache",
     "lint:onlyErrors": "node --run lint -- --quiet",
     "lint:inspect": "pnpm dlx @eslint/config-inspector",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "node --run lint -- --fix",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config . --cache"
   },
   "devDependencies": {
     "@com.mgmtp.a12.devtools/eslint-config": "catalog:a12",
@@ -35,5 +35,5 @@
     "eslint-plugin-workspaces": "catalog:",
     "prettier": "catalog:"
   },
-  "packageManager": "pnpm@11.1.2"
+  "packageManager": "pnpm@10.33.0"
 }

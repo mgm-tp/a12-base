@@ -58,22 +58,28 @@ subprojects {
         apply plugin: 'maven-publish'
         apply plugin: 'org.cyclonedx.bom'
 
-        // base-parent and base-bom are java-platform projects, so they must not use the java plugin
-        if (project.name != 'base-parent' && project.name != 'base-bom') {
+        // base-bom is a java-platform project, so it must not use the java plugin
+        if (project.name != 'base-bom') {
             apply plugin: 'java-library'
             apply plugin: 'com.github.spotbugs'
             apply plugin: 'com.diffplug.spotless'
 
             java {
                 toolchain {
-                    languageVersion = JavaLanguageVersion.of(21)
+                    languageVersion = JavaLanguageVersion.of(25)
                 }
                 withSourcesJar()
             }
 
+            dependencies {
+                api platform(libs.jackson.bom)
+            }
+
             tasks.withType(JavaCompile).configureEach {
+                options.release.set(21)
                 options.encoding = 'UTF-8'
                 options.deprecation = true
+                options.compilerArgs << '-Werror'
                 options.compilerArgs << '-Xlint:deprecation'
             }
 
@@ -95,8 +101,8 @@ subprojects {
             tasks.named('test') {
                 useTestNG()
                 testLogging {
-                    events 'passed', 'skipped', 'failed'
-                    exceptionFormat 'full'
+                    events = ['passed', 'skipped', 'failed']
+                    exceptionFormat = 'full'
                 }
             }
 
@@ -146,17 +152,6 @@ subprojects {
                 publications {
                     maven(MavenPublication) {
                         from components.java
-
-                        final String groupIdForParent = group
-                        final String versionForParent = version
-
-                        pom.withXml {
-                            asNode().appendNode('parent').with {
-                                appendNode('groupId', groupIdForParent)
-                                appendNode('artifactId', 'base-parent')
-                                appendNode('version', versionForParent)
-                            }
-                        }
                     }
                 }
             }
@@ -232,7 +227,7 @@ subprojects {
 }
 
 tasks.register('configurePnpm', LeadingBuildTask) {
-    final Path installDir = Paths.get("${rootDir}/.npm")
+    final Path installDir = Path.of("${rootDir}/.npm")
 
     doLast {
         if (System.getenv('CI')) {
@@ -267,7 +262,6 @@ tasks.register('verify', LeadingBuildTask) {
 }
 
 tasks.register('nodeClean', LeadingBuildTask) {
-    dependsOn tasks.named('installDependencies')
     doLast { execCommandLine 'node', '--run', 'clean' }
 }
 

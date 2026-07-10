@@ -3,8 +3,6 @@
 /models/json
 /node_modules
 
-npm-debug.log*
-
 cyclonedx.json
 LICENSE
 NOTICE

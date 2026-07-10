@@ -7,12 +7,6 @@
 			"path": "base-bom"
 		},
 		{
-			"path": "base-parent"
-		},
-		{
-			"path": "base-bundle"
-		},
-		{
 			"path": "codemod"
 		},
 		{
@@ -34,20 +28,13 @@
 			"path": "model-marshalling"
 		},
 		{
-			"path": "model-migration-api"
-		},
-		{
-			"path": "model-migration-api-ts"
-		},
-		{
 			"path": "model-utils"
 		}
 	],
 	"settings": {
+		"js/ts.tsdk.path": "model-api-ts/node_modules/typescript/lib",
 		"files.exclude": {
 			"base-bom": true,
-			"base-parent": true,
-			"base-bundle": true,
 			"codemod": true,
 			"documentation": true,
 			"fs-model-repository": true,
@@ -55,8 +42,6 @@
 			"model-api-ts": true,
 			"model-consistency": true,
 			"model-marshalling": true,
-			"model-migration-api": true,
-			"model-migration-api-ts": true,
 			"model-utils": true
 		}
 	}

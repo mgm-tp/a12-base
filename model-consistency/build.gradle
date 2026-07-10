@@ -2,7 +2,8 @@ description = 'model consistency check API'
 
 dependencies {
     api project(':model-api')
-    api libs.commons.lang3
+
+    implementation libs.commons.lang3
 
     testImplementation libs.testng
 }

@@ -119,7 +119,7 @@ public class ConsistencyProblem implements Problem {
 	@Override
 	public String getLocalizedMessage(final Locale locale) {
 		final String localizedMessage = category.getLocalizedMessage(locale, category.getKeyValue());
-		return String.format(localizedMessage, parameters);
+		return localizedMessage.formatted(parameters);
 	}
 
 	/**

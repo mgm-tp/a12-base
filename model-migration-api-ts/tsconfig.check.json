@@ -1,9 +1,0 @@
-{
-	"extends": "./tsconfig.json",
-	"include": ["src/main"],
-	"exclude": ["src/test"],
-	"compilerOptions": {
-		"types": [],
-		"noEmit": true
-	}
-}

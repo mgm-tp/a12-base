@@ -39,7 +39,7 @@ import java.io.Serializable;
 public interface ModelReference extends Serializable {
 
 	/**
-	 * @return a string containing what the references is used for
+	 * @return a string containing what the references are used for
 	 */
 	String getPurpose();
 

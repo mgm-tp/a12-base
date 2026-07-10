@@ -2,7 +2,6 @@ description = 'model marshalling'
 
 dependencies {
     api project(':model-api')
-    api libs.commons.lang3
 }
 
 publishing {

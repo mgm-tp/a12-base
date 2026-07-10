@@ -113,72 +113,13 @@ Problem problem = new Problem(
 );
 ----
 
-Consistency problems are used in consistency rules to represent the result of a model validation.
+== Consistency Validator
 
-== Rules
+The abstract `ConsistencyValidator` class provides a base for performing consistency checks on A12 models.
+Implementations of this class must provide two methods:
 
-You can define your own model consistency rules for a specific model type by implementing the generic `ModelConsistencyRule` interface.
-The interface consists of a single method `executeRule`, which takes a model of the specified type and returns a list of consistency problems.
+* `List<Problem> validate(final Model model)`: Perform a consistency check on a single model
 
-[source,java,options="nowrap"]
-----
-public interface ModelConsistencyRule<T extends Model> {
-	List<Problem> executeRule(T model);
-}
-----
+* `List<Problem> validateSet(final Collection<Model> models)`: Perform a consistency check on a set of models
 
-Rules can be executed in different ways.
-They can be executed directly, by calling the `executeRule` method, but it is recommended to execute rules by using the `ConsistencyValidator`.
-To provide your rules to the `ConsistencyValidator` you should write a rule provider by implementing the `ModelConsistencyRulesProvider` interface.
-
-[source,java,options="nowrap"]
-----
-public interface ModelConsistencyRulesProvider<T extends Model> {
-	Class<T> modelType();
-	boolean supports(Class<?> clazz);
-	List<ModelConsistencyRule<T>> getRules();
-}
-----
-
-Every rule provider handles the rules for a specific model type.
-The method `supports` should return true if the given class is supported by this provider, i.e. if the corresponding rules can be applied to this class.
-If the class is supported, you can retrieve the rules via `getRules`.
-
-=== Consistency Validator
-
-The `ConsistencyValidator` class is the main entry point, that should be used for performing consistency checks for all kinds of A12 models.
-It provides two methods to perform a validation:
-
-* `ConsistencyStatus validate(final Model model)`: Perform a consistency check on a single model
-
-* `ConsistencyStatus validateSet(final Collection<Model> models)`: Perform a consistency check on a set of models
-
-Internally, the `ConsistencyValidator` uses all available `ModelConsistencyRulesProvider` implementations to retrieve the relevant rules for a given model.
-
-The constructor takes two arguments - a `ModelResolver` and a list of additional rules, that are not covered by any rule provider.
-A minimal example of how to use the `ConsistencyValidator` can be seen below:
-
-[source,java,options="nowrap"]
-----
-ModelResolver modelResolver = new TestModelResolver();
-ConsistencyValidator validator = new ConsistencyValidator(modelResolver, Collections.emptyList());
-
-MODEL_TYPE model = // load your model here
-ConsistencyStatus statusSingleModel = validator.validate(model);
-
-Collection<MODEL_TYPE> modelCollection = // load your models here
-ConsistencyStatus statusSetOfModels = validator.validateSet(modelCollection);
-----
-
-The `ConsistencyStatus` object contains the list of problems as well as a boolean flag, which indicates if the validation has been successful or not.
-This flag will be set to true if no problems were found during validation.
-Otherwise it will be set to false.
-All required information can be retrieved via one of the following methods:
-
-* problems()
-
-* isValid()
-
-* isInvalid()
-
-* hasError()
+When implementing a `ConsistencyValidator`, the constructor must accept a `ModelResolver` as an argument.

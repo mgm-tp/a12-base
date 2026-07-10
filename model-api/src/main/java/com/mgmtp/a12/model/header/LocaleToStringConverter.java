@@ -31,7 +31,7 @@
  */
 package com.mgmtp.a12.model.header;
 
-import com.fasterxml.jackson.databind.util.StdConverter;
+import tools.jackson.databind.util.StdConverter;
 
 import java.util.Locale;
 

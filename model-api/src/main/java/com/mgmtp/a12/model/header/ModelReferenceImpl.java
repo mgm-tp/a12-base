@@ -92,10 +92,9 @@ public class ModelReferenceImpl implements ModelReference, Serializable {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof ModelReferenceImpl)) {
+		if (!(o instanceof ModelReferenceImpl that)) {
 			return false;
 		}
-		final ModelReferenceImpl that = (ModelReferenceImpl) o;
 		return Objects.equals(getPurpose(), that.getPurpose()) &&
 			Objects.equals(getModelType(), that.getModelType()) &&
 			Objects.equals(getAlias(), that.getAlias()) &&

@@ -92,8 +92,7 @@ public class FsModelRepository implements ModelRepository {
 		try {
 			findById(modelId);
 			throw new FaultException(
-				String.format(
-					"Cannot create file for model '%s'. The model file already exists.",
+				"Cannot create file for model '%s'. The model file already exists.".formatted(
 					modelId));
 
 		} catch (final ResourceAccessException rae) {
@@ -134,7 +133,7 @@ public class FsModelRepository implements ModelRepository {
 		String modelId = item.getHeader().getId();
 		final Path modelFilePath = getPathForFileAction(
 			modelId,
-			String.format("Error trying to save model '%s'. The model must be created first.", modelId));
+			"Error trying to save model '%s'. The model must be created first.".formatted(modelId));
 
 		storeModelToPath(item, modelFilePath, false);
 	}
@@ -146,7 +145,7 @@ public class FsModelRepository implements ModelRepository {
 		final Path modelFilePath =
 			getPathForFileAction(
 				id,
-				String.format("Error trying to delete model '%s'. The model file does not exist.", id));
+				"Error trying to delete model '%s'. The model file does not exist.".formatted(id));
 
 		deleteModelFileFromPath(id, modelFilePath);
 	}
@@ -163,7 +162,7 @@ public class FsModelRepository implements ModelRepository {
 	}
 
 	static String getModelFileName(final String id, final String fileExtension) {
-		return String.format("%s.%s", FileNameUtil.getFileNameForModel(id), fileExtension);
+		return "%s.%s".formatted(FileNameUtil.getFileNameForModel(id), fileExtension);
 	}
 
 	private void storeModelToPath(final Model item, final Path modelFilePath, final boolean create) {
@@ -181,7 +180,7 @@ public class FsModelRepository implements ModelRepository {
 			}
 		} catch (final IOException e) {
 			throw new FaultException(
-				String.format("Error trying to create file '%s'.", modelFilePath.toString()), e);
+				"Error trying to create file '%s'.".formatted(modelFilePath.toString()), e);
 		}
 	}
 
@@ -197,7 +196,7 @@ public class FsModelRepository implements ModelRepository {
 		} catch (final IOException e) {
 			throw new ResourceAccessException(
 				modelName,
-				String.format("Could not read file '%s'", modelFilePath.toString()),
+				"Could not read file '%s'".formatted(modelFilePath.toString()),
 				e);
 		}
 		return result;
@@ -212,7 +211,7 @@ public class FsModelRepository implements ModelRepository {
 			.filter(model -> model.getHeader().getId().equals(id))
 			.findAny()
 			.orElseThrow(
-				() -> new ResourceAccessException(id, String.format("A model named '%s' does not exist.", id)));
+				() -> new ResourceAccessException(id, "A model named '%s' does not exist.".formatted(id)));
 	}
 
 	private void readAllFilesFromRoot(final ArrayList<Model> result) {
@@ -237,14 +236,14 @@ public class FsModelRepository implements ModelRepository {
 
 					} catch (final IOException ioe) {
 						throw new FaultException(
-							String.format("Error trying to read file '%s'", path.toString()),
+							"Error trying to read file '%s'".formatted(path.toString()),
 							ioe);
 					}
 				}
 			}
 		} catch (final IOException ioe) {
 			throw new FaultException(
-				String.format("Error trying to access list of files in '%s'", repositoryRoot.toString()),
+				"Error trying to access list of files in '%s'".formatted(repositoryRoot.toString()),
 				ioe);
 		}
 	}
@@ -280,12 +279,11 @@ public class FsModelRepository implements ModelRepository {
 				Files.delete(modelFilePath);
 			} catch (final IOException ioe) {
 				throw new FaultException(
-					String.format("Error trying to delete model file '%s'.", modelFilePath.toString()), ioe);
+					"Error trying to delete model file '%s'.".formatted(modelFilePath.toString()), ioe);
 			}
 		} else {
 			throw new FaultException(
-				String.format(
-					"Cannot delete model '%s'. The file '%s' does not exist.",
+				"Cannot delete model '%s'. The file '%s' does not exist.".formatted(
 					id,
 					modelFilePath.toString()));
 		}

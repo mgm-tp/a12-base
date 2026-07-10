@@ -31,29 +31,31 @@
  */
 package com.mgmtp.a12.model.serialization;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.core.util.Separators;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.util.DefaultIndenter;
+import tools.jackson.core.util.DefaultPrettyPrinter;
+import tools.jackson.core.util.Separators;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * A {@link DefaultPrettyPrinter} implementation to be used with jackson bindings that imitates the behavior of the
  * JavaScript call
  * <p>
- * <code>JSON.stringify(jsObject, null, 2);</code>
+ * {@code JSON.stringify(jsObject, null, 2);}
  * </p>
  */
 public class A12DefaultJsonPrettyPrinter extends DefaultPrettyPrinter {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public A12DefaultJsonPrettyPrinter() {
-		super(DEFAULT_SEPARATORS.withObjectFieldValueSpacing(Separators.Spacing.AFTER));
-		Indenter spaceIndenter = new DefaultIndenter("  ", DefaultIndenter.SYS_LF);
-		this._arrayIndenter = spaceIndenter;
-		this._objectIndenter = spaceIndenter;
+		super(DEFAULT_SEPARATORS.withObjectNameValueSpacing(Separators.Spacing.AFTER));
+		this._arrayIndenter = DefaultIndenter.SYSTEM_LINEFEED_INSTANCE;
+		this._objectIndenter = DefaultIndenter.SYSTEM_LINEFEED_INSTANCE;
 	}
 
 	@Override
@@ -61,16 +63,16 @@ public class A12DefaultJsonPrettyPrinter extends DefaultPrettyPrinter {
 		return new A12DefaultJsonPrettyPrinter();
 	}
 
-	// This is necessary to separate keys and values in the resulting json with ": "
+	// This is necessary to separate keys and values in the resulting JSON with ": "
 	// like JSON.stringify does.
 	@Override
 	public DefaultPrettyPrinter withSeparators(final Separators separators) {
-		Separators adaptedSeparators = separators.withObjectFieldValueSpacing(Separators.Spacing.AFTER);
+		Separators adaptedSeparators = separators.withObjectNameValueSpacing(Separators.Spacing.AFTER);
 		return super.withSeparators(adaptedSeparators);
 	}
 
 	@Override
-	public void writeEndArray(JsonGenerator g, int nrOfValues) throws IOException {
+	public void writeEndArray(JsonGenerator g, int nrOfValues) throws JacksonException {
 		if (nrOfValues > 0) {
 			super.writeEndArray(g, nrOfValues);
 		} else {
@@ -80,7 +82,7 @@ public class A12DefaultJsonPrettyPrinter extends DefaultPrettyPrinter {
 	}
 
 	@Override
-	public void writeEndObject(JsonGenerator g, int nrOfEntries) throws IOException {
+	public void writeEndObject(JsonGenerator g, int nrOfEntries) throws JacksonException {
 		if (nrOfEntries > 0) {
 			super.writeEndObject(g, nrOfEntries);
 		} else {

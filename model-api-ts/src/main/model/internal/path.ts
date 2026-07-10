@@ -46,7 +46,7 @@ export type ModelPath = {
 /**
  * Utility functions for the {@link ModelPath}.
  */
-export namespace ModelPath {
+export const ModelPath = {
 	/**
 	 * Function to compare two {@link ModelPath}s.
 	 * @returns true if the given paths are equal
@@ -59,9 +59,9 @@ export namespace ModelPath {
 	 * The path [{elementName: "GroupA"}, {elementName: "Field1"}] is not
 	 * equal to [{elementName: "GroupA"}, {elementName: "GroupB"}].
 	 */
-	export function equal(p1: ModelPath, p2: ModelPath): boolean {
+	equal(p1: ModelPath, p2: ModelPath): boolean {
 		return p1.length === p2.length && p1.every((p1e, i) => p1e.elementName === p2[i].elementName);
-	}
+	},
 
 	/**
 	 * Function to create a {@link ModelPath} from string.
@@ -72,14 +72,14 @@ export namespace ModelPath {
 	 * Example:
 	 * The path for the string "/GroupA/Field1" is [{elementName: "GroupA"}, {elementName: "Field1"}].
 	 */
-	export function fromString(str: string): ModelPath {
+	fromString(str: string): ModelPath {
 		const normalizedIdentifier = str.startsWith("/") ? str.slice(1) : str;
 		return normalizedIdentifier.length > 0
 			? normalizedIdentifier.split("/").map(elementName => {
 					return { elementName };
 				})
 			: [];
-	}
+	},
 
 	/**
 	 * Function to convert a {@link ModelPath} to a string.
@@ -88,9 +88,9 @@ export namespace ModelPath {
 	 * Example:
 	 * The string representation for the path [{elementName: "GroupA"}, {elementName: "Field1"}] is "/GroupA/Field1".
 	 */
-	export function toString(path: ModelPath): string {
+	toString(path: ModelPath): string {
 		return "/" + path.map(segment => segment.elementName).join("/");
-	}
+	},
 
 	/**
 	 * @param path A path to a model element.
@@ -99,9 +99,9 @@ export namespace ModelPath {
 	 * Example:
 	 * The parent path of [{elementName: "GroupA"}, {elementName: "Field1"}] is [{elementName: "GroupA"}].
 	 */
-	export function parentPath(path: ModelPath): ModelPath {
+	parentPath(path: ModelPath): ModelPath {
 		return path.length > 0 ? path.slice(0, -1) : path;
-	}
+	},
 
 	/**
 	 * Checks, if a model element is contained in another model element.
@@ -118,7 +118,7 @@ export namespace ModelPath {
 	 * p2 [{elementName: "Screen1"}, {elementName: "ControlGrid2"}]
 	 * Result: false - Control1 is a transitive child of Screen1, but not of ControlGrid2.
 	 */
-	export function contains(p1: ModelPath, p2: ModelPath): boolean {
+	contains(p1: ModelPath, p2: ModelPath): boolean {
 		return p1.length >= p2.length && p2.every((p2e, i) => p2e.elementName === p1[i].elementName);
 	}
-}
+};

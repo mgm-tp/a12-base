@@ -32,24 +32,267 @@ LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 
 = Migration Instructions
 
+== 2026.06
+
+=== Breaking Changes
+
+==== Removal of Migration packages
+
+The npm package `@com.mgmtp.a12.base/base-model-migration-api` and the Java artifact `base-model-migration-api` (`com.mgmtp.a12.model.migration`) have been removed.
+These packages only contained the interfaces `MigrationTool` and `MigrationResult`, which were solely consumed by the A12 Migration Tool itself.
+Since they served no purpose outside of that context, they have been removed from A12 Base.
+
+*npm:*
+If you depend on `@com.mgmtp.a12.base/base-model-migration-api`, replace it with the `@com.mgmtp.a12.migrationtool/migrationtool-core` package, which now provides the `MigrationTool` and `MigrationResult` types directly.
+
+*Java:*
+The Java artifact `base-model-migration-api` has been removed without replacement.
+If you do depend on `com.mgmtp.a12.model.migration.MigrationTool` or `com.mgmtp.a12.model.migration.MigrationResult`, you will need to copy the interface and the class.
+
+==== Simplification of Consistency API
+
+The consistency API has been significantly simplified by removing the rule-based architecture and converting `ConsistencyValidator` to an abstract base class.
+This was done to provide implementers of this API with more freedom when writing a consistency checker.
+
+*Removed Classes and Interfaces:*
+
+* `com.mgmtp.a12.model.consistency.ConsistencyStatus` - Use `List<Problem>` instead
+* `com.mgmtp.a12.model.consistency.rules.ModelConsistencyRule`
+* `com.mgmtp.a12.model.consistency.rules.ModelConsistencyRulesProvider`
+* `com.mgmtp.a12.model.consistency.rules.RuleExecutor`
+* `com.mgmtp.a12.model.consistency.rules.ModelConsistencyCategory`
+* `com.mgmtp.a12.model.consistency.rules.FatalRuleProblemException`
+* `com.mgmtp.a12.model.data.document.consistency.AbstractRuleWithModelResolver`
+* `com.mgmtp.a12.model.data.document.consistency.CheckReferencedModelRule`
+* `com.mgmtp.a12.model.data.document.consistency.DocumentModelCategory`
+* `com.mgmtp.a12.model.consistency.impl.InvalidModelResolverException`
+
+*Changed Classes:*
+
+`ConsistencyValidator` is now an abstract base class with a generic type parameter instead of a concrete implementation:
+
+[source,java,options="nowrap"]
+----
+// Old usage
+ModelResolver modelResolver = new MyModelResolver();
+ConsistencyValidator validator = new ConsistencyValidator(modelResolver);
+
+// validate your loaded model
+ConsistencyStatus status = validator.validate(model);
+
+if (status.isValid()) {
+    // handle success
+}
+List<Problem> problems = status.problems();
+
+// New usage - extend ConsistencyValidator with type parameter
+public class MyConsistencyValidator extends ConsistencyValidator<MyModel> {
+    public MyConsistencyValidator(ModelResolver modelResolver) {
+        super(modelResolver);
+    }
+
+    @Override
+    public List<Problem> validate(MyModel model) {
+        // Implement your validation logic here
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Problem> validateSet(Collection<MyModel> models) {
+        // Implement your validation logic here
+        return new ArrayList<>();
+    }
+}
+
+// Then use it
+ModelResolver modelResolver = new MyModelResolver();
+ConsistencyValidator validator = new MyConsistencyValidator(modelResolver);
+
+// validate your loaded model
+List<Problem> problems = validator.validate(model);
+
+if (problems.isEmpty()) {
+    // handle success
+}
+----
+
+*Migration Path:*
+
+The old API used `ServiceLoader` to automatically discover all implementations of `ModelConsistencyRulesProvider` and execute their rules.
+This mechanism has been removed. Your migration path depends on how you used the API:
+
+*A) If you only used the API to combine multiple rule providers (without custom rules):*
+
+Instead of relying on the old `ConsistencyValidator` to automatically discover and execute all rule providers, you now need to call the specific validators directly.
+Each component that previously provided rules via `ModelConsistencyRulesProvider` should now offer its own `ConsistencyValidator` implementation.
+Check the documentation of the respective components to see if a validator exists.
+
+Example:
+[source,java,options="nowrap"]
+----
+// Old: automatic discovery via ServiceLoader
+ConsistencyValidator validator = new ConsistencyValidator(modelResolver);
+ConsistencyStatus status = validator.validate(model); // executes all discovered rules
+
+// New: call specific validators
+MyModelConsistencyValidator docValidator = new MyModelConsistencyValidator(modelResolver);
+List<Problem> docProblems = docValidator.validate(myModel);
+
+// Combine problems from multiple validators if needed
+List<Problem> allProblems = new ArrayList<>();
+allProblems.addAll(docProblems);
+// add problems from other validators...
+----
+
+*B) If you used custom rules (with or without combining rule providers):*
+
+You need to create your own `ConsistencyValidator` implementation and move your custom rule logic into the `validate()` and `validateSet()` methods.
+If you were combining your custom rules with other rule providers, you can call the specific validators from within your implementation (see A).
+
+Example:
+[source,java,options="nowrap"]
+----
+// Old: adding custom rules
+ConsistencyValidator validator = new ConsistencyValidator(modelResolver);
+validator.addCustomRule(myCustomRule);
+ConsistencyStatus status = validator.validate(model);
+
+// New: implement your own validator with type parameter
+public class MyConsistencyValidator extends ConsistencyValidator<MyModel> {
+    public MyConsistencyValidator(ModelResolver modelResolver) {
+        super(modelResolver);
+    }
+
+    @Override
+    public List<Problem> validate(MyModel model) {
+        List<Problem> problems = new ArrayList<>();
+
+        // Add your custom validation logic here
+        // (previously in ModelConsistencyRule implementations)
+
+        // Optionally call other validators if needed
+        // DocumentConsistencyValidator docValidator = new DocumentConsistencyValidator(modelResolver);
+        // problems.addAll(docValidator.validate(model));
+
+        return problems;
+    }
+
+    @Override
+    public List<Problem> validateSet(Collection<MyModel> models) {
+        // Implement validation for model sets
+        return new ArrayList<>();
+    }
+}
+----
+
+*General API Changes:*
+
+* Replace `ConsistencyStatus` return values with `List<Problem>`
+* Replace calls to `status.isValid()` with `problems.isEmpty()`
+* Replace calls to `status.problems()` with the returned list directly
+* Remove any implementations of `ModelConsistencyRulesProvider` (provide `ConsistencyValidator` implementations instead)
+* Remove any implementations of `ModelConsistencyRule` (move validation logic into `ConsistencyValidator.validate()` and `validateSet()` methods)
+* Remove usages of `ModelConsistencyCategory` (the `ConsistencyCategory` interface can be used to implement your custom categories if needed)
+
+==== Removal of base-parent and base-bundle
+
+After the deprecation in the previous release, the Java artifacts `base-parent` and `base-bundle` were removed now.
+See the link:/docs/2025.06/ext4/base/base-documentation-bundle#_deprecation_of_base_parent[deprecation notice,role=external] for details.
+
+Please use the new `base-bom` artifact as Java platform / bom to manage the versions of used base libraries and configure the specific base libraries you need as direct dependencies.
+
+If you relied on the base-parent pom managing the version of apache.commons.io, you need to manage this dependency yourself now, since it is not used by any base library and the new base-bom does not manage it.
+
+==== Changed Dependency Scopes
+
+The scopes of some dependencies of the base libraries were changed to better reflect their actual usage:
+
+|===
+|base library |dependency |scope change
+
+.2+|base-fs-model-repository
+|base-model-marshalling
+|from `compile` to `runtime`
+
+|apache.commons.lang3
+|from `compile` to `test`
+
+|base-model-api
+|apache.commons.lang3
+|from `compile` to `runtime`
+
+|base-model-consistency
+|apache.commons.lang3
+|from `compile` to `runtime`
+
+|base-model-marshalling
+|apache.commons.lang3
+|was not used, dependency is removed
+|===
+
+If you use one of these base libraries, you may have relied on the fact, that the listed dependencies were made available via base at compile-time.
+Maybe you use them without declaring them as your own dependencies.
+Now, you need to add them directly to your dependency configuration.
+
+==== Drop Java 17 Support
+
+The Base Java libraries are now compiled with and for Java 21. Support for Java 25 is also guaranteed.
+
+==== Updating to ES2025
+
+The javascript output of the npm artifacts was updated from `ES2024` to `ES2025` to be able to use latest language features. When using supported browsers, there is no change necessary. If support for older browsers is required, make sure to include necessary polyfills.
+
+==== Removal of Deep Import Paths
+
+Deep import paths from `@com.mgmtp.a12.base/model-api-ts` (e.g., `@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js`) have been removed.
+All exports must now be imported directly from the package root. For detailed migration instructions, see the link:/docs/2025.06/ext4/base/base-documentation-bundle#_deep_import_paths_of_a12_base_npm_packages[deprecation,role=external] note.
+
+[NOTE]
+====
+The package now uses the `exports` field instead of `main`/`types`. This should be transparent for most consumers but may require configuration updates for older bundlers.
+====
+
+==== Conversion of ModelPath namespace into object
+
+The `ModelPath` namespace was changed to a `const` object. This was done to improve treeshaking and to unblock users from using the link:https://www.typescriptlang.org/tsconfig/#erasableSyntaxOnly[erasableSyntaxOnly flag].
+
+==== Migration to Jackson 3
+
+We migrated to Jackson 3. Please refer to the official link:https://github.com/FasterXML/jackson/blob/main/jackson3/MIGRATING_TO_JACKSON_3.md[Migration Guide] for details on required changes to your code.
+
+To achieve cleaner separation between `ObjectMapper` configurations, how we handle (de-)serialization of model headers is now an implementation detail of A12 Base. As a result, the method `JacksonConfiguration#configureMixins` does not register mixins for the `Header` class anymore. It should only be used if you use `Locale`, `Annotation`, `Label` or `ModelReference` outside of the model header.
+
+As a replacement, we now provide a `JacksonModule` that can be integrated into your `ObjectMapper`.
+
+[source,java,options="nowrap"]
+----
+import static com.mgmtp.a12.model.header.HeaderModule.HEADER_MODULE;
+import tools.jackson.databind.json.JsonMapper;
+
+ObjectMapper mapper = JsonMapper.builder()
+    .addModule(HEADER_MODULE)
+    .build();
+----
+
 == 2025.06-ext4
 
 === Deprecation
 
 ==== Deep import paths of A12 Base npm packages
 
-Nested imports from the npm packages `@com.mgmtp.a12.base/base-model-api` and `@com.mgmtp.a12.base/base-model-migration-api` (e.g. `@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js`)
-are now deprecated in favor of top-level imports to avoid unnecessary breaking changes and reduce ongoing maintenance effort.
+Nested imports from the npm packages `@com.mgmtp.a12.base/base-model-api` and `@com.mgmtp.a12.base/base-model-migration-api` (e.g. `@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js`) are now deprecated in favor of top-level imports to avoid unnecessary breaking changes and reduce ongoing maintenance effort.
 
 The ability to use the old-style ("long") imports will be removed in the next breaking release.
 
 To migrate, first install or update the codemod with your preferred package manager, e.g. with `pnpm`:
+
 [source,bash]
 ----
 pnpm install -g @com.mgmtp.a12.base/base-codemod
 ----
 
 Then run the specific recipe:
+
 [source,bash]
 ----
 base-codemod preferTopLevel <path to directory with tsconfig.json>
@@ -62,8 +305,8 @@ For further details, run the codemod with the `--help` flag.
 
 ==== Deprecation of base-parent
 
-The `base-parent` java artifact has been deprecated.
-Please use the new artifact `base-bom` as Gradle java platform / Maven bom, when you want to manage the versions of used base libraries.
+The `base-parent` Java artifact has been deprecated.
+Please use the new artifact `base-bom` as Gradle Java platform / Maven bom, when you want to manage the versions of used base libraries.
 
 In the new `base-bom`, the versions for apache.commons.lang3 and apache.commons.io are no longer managed compared to `base-parent`.
 
@@ -74,9 +317,9 @@ If you use these apache libraries in your project, please add them as direct dep
 
 ==== Deprecation of base-bundle
 
-The `base-bundle` java artifact has been deprecated without replacement.
+The `base-bundle` Java artifact has been deprecated without replacement.
 
-If you used it as java-platform / bom in your build setup, please also use the new `base-bom` now.
+If you used it as Java-platform / bom in your build setup, please also use the new `base-bom` now.
 
 If you have used it to get access to the bundled base libraries, now please configure the specific base libraries you need as direct dependency.
 
@@ -125,13 +368,13 @@ Consult the documentation of your bundler for specifics.
 
 ==== Updating to ES2024
 
-The javascript output of the npm artifacts was updated from `ES2020` to `ES2024` to be able to use latest language features.
+The JavaScript output of the npm artifacts was updated from `ES2020` to `ES2024` to be able to use latest language features.
 When using supported browsers, there is no change necessary.
 If support for older browsers is required, make sure to include necessary polyfills.
 
 ==== Drop Java 17 Support
 
-The Base java libraries are now compiled with and for Java 21.
+The Base Java libraries are now compiled with and for Java 21.
 
 ==== Removed Severity
 

@@ -70,10 +70,9 @@ public class AnnotationImpl implements Annotation, Serializable {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof AnnotationImpl)) {
+		if (!(o instanceof AnnotationImpl that)) {
 			return false;
 		}
-		final AnnotationImpl that = (AnnotationImpl) o;
 		return Objects.equals(getName(), that.getName()) &&
 			Objects.equals(getValue(), that.getValue());
 	}

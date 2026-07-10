@@ -39,7 +39,7 @@ import { preferTopLevelImportsRecipe } from "./recipes/preferTopLevel.js";
 
 createCodemodCLI({
 	name: pkg.name,
+	version: pkg.version,
 	description: "Codemod tooling for assisting migrations of A12 Base",
-	recipes: [preferTopLevelImportsRecipe],
-	version: pkg.version
+	recipes: [preferTopLevelImportsRecipe]
 });

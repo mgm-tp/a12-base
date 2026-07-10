@@ -71,10 +71,9 @@ public class LabelImpl implements Label, Serializable {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof LabelImpl)) {
+		if (!(o instanceof LabelImpl label)) {
 			return false;
 		}
-		final LabelImpl label = (LabelImpl) o;
 		return Objects.equals(getLocale(), label.getLocale()) &&
 			Objects.equals(getText(), label.getText());
 	}

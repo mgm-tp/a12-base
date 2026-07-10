@@ -1,5 +1,5 @@
 {
-	"extends": "@com.mgmtp.a12.devtools/devtools/configs/tsconfig",
+	"extends": "@com.mgmtp.a12.devtools/tsconfig",
 	"include": ["./*.ts"],
 	"compilerOptions": {
 		"noEmit": true,

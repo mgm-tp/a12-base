@@ -31,18 +31,19 @@
  */
 package com.mgmtp.a12.model.repository;
 
+import java.io.Serial;
+
 /**
  * The root of all fault exceptions.
- * <p/>
+ * <p>
  * Definition: A fault is an unplanned condition that prevents a method from achieving its intended purpose that cannot
  * be described without reference to the method's internal implementation.
- * <p/>
+ * </p>
  *
- * @date $LastChangedDate: 2012-06-08 13:09:55 +0200 (Fr, 08. Jun 2012) $
- * @revision $LastChangedRevision: 423 $
  * @since 1.0
  */
 public class FaultException extends RuntimeException {
+	@Serial
 	private static final long serialVersionUID = -5541476240605176847L;
 
 	public FaultException() {

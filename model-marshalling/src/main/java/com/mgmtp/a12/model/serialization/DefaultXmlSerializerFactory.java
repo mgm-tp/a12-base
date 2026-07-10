@@ -68,8 +68,7 @@ public class DefaultXmlSerializerFactory implements XmlSerializerFactory {
 
 		if (xmlSerializer == null) {
 			throw new UnsupportedOperationException(
-				String.format(
-					"XML serialization is not yet supported by the factory for models of type'%s' yet.",
+				"XML serialization is not yet supported by the factory for models of type'%s' yet.".formatted(
 					clazz.getSimpleName()));
 		}
 		return xmlSerializer;

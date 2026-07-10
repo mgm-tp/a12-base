@@ -1,1 +1,0 @@
-To find out more about contributing to the Open Source A12 Low Code platform, please see: https://geta12.com/#/editions-licensing#contributing

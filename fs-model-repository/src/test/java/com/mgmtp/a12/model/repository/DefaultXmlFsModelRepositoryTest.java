@@ -66,7 +66,7 @@ public class DefaultXmlFsModelRepositoryTest {
 	private static final String EXTRA_DOCUMENT_MODEL = "DocModel3.xml";
 	private static final String FILE_EXTENSION = "xml";
 
-	private static final List<String> SAMPLE_MODELS = new ArrayList<String>() {
+	private static final List<String> SAMPLE_MODELS = new ArrayList<>() {
 		{
 			add(DOCUMENT_MODEL);
 			add(FORM_MODEL);

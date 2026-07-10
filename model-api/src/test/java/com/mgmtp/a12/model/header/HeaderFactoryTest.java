@@ -130,12 +130,12 @@ public class HeaderFactoryTest {
 		assertEquals(header.getId(), ID);
 		assertEquals(header.getModelType(), MODEL_TYPE);
 		assertEquals(header.getModelVersion(), MODEL_VERSION);
-		assertEquals(header.getLocales().get(0), Locale.ENGLISH);
-		assertEquals(header.getLabels().get(0).getText(), LABEL);
+		assertEquals(header.getLocales().getFirst(), Locale.ENGLISH);
+		assertEquals(header.getLabels().getFirst().getText(), LABEL);
 		assertEquals(header.getDescription(), DESCRIPTION);
-		assertEquals(header.getAnnotations().get(0).getName(), ANNOTATION);
-		assertEquals(header.getAnnotations().get(0).getValue(), ANNOTATION_VALUE);
-		assertEquals(header.getModelReferences().get(0), createTestModelReference());
+		assertEquals(header.getAnnotations().getFirst().getName(), ANNOTATION);
+		assertEquals(header.getAnnotations().getFirst().getValue(), ANNOTATION_VALUE);
+		assertEquals(header.getModelReferences().getFirst(), createTestModelReference());
 	}
 
 	private ModelReference createTestModelReference() {

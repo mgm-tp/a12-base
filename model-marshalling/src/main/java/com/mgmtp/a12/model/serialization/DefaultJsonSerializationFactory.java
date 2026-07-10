@@ -69,8 +69,7 @@ public class DefaultJsonSerializationFactory implements JsonSerializationFactory
 
 		if (jsonSerializer == null) {
 			throw new UnsupportedOperationException(
-				String.format(
-					"JSON serialization is not yet supported by the factory for models of type'%s' yet.",
+				"JSON serialization is not yet supported by the factory for models of type'%s' yet.".formatted(
 					clazz.getSimpleName()));
 		}
 		return jsonSerializer;

@@ -53,7 +53,7 @@ class FsModelRepositoryTestUtil {
 
 	static void emptyDirectory(final Path dir) throws IOException {
 		Files.walkFileTree(
-			dir, new SimpleFileVisitor<Path>() {
+			dir, new SimpleFileVisitor<>() {
 				@Override
 				public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
 					Files.delete(file);

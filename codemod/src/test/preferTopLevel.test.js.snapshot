@@ -1,5 +1,4 @@
 exports[`codemod.recipes.preferTopLevel > Rewrites import paths correctly > should migrate imports.ts correctly 1`] = `
 import { isModelInstance, type ModelType } from "@com.mgmtp.a12.base/base-model-api";
-import { type MigrationTool } from "@com.mgmtp.a12.base/base-model-migration-api";
 
 `;

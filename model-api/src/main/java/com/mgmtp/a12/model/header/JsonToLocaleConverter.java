@@ -31,7 +31,7 @@
  */
 package com.mgmtp.a12.model.header;
 
-import com.fasterxml.jackson.databind.util.StdConverter;
+import tools.jackson.databind.util.StdConverter;
 import org.apache.commons.lang3.LocaleUtils;
 
 import java.util.Locale;
@@ -41,15 +41,14 @@ class JsonToLocaleConverter extends StdConverter<Object, Locale> {
 
 	@Override
 	public Locale convert(final Object value) {
-		if (value instanceof Map) {
-			final Object localeCode = ((Map) value).get("code");
-			if (localeCode instanceof String) {
-				return LocaleUtils.toLocale((String) localeCode);
+		if (value instanceof Map localeObject) {
+			final Object localeCode = localeObject.get("code");
+			if (localeCode instanceof String locale) {
+				return LocaleUtils.toLocale(locale);
 			}
-		} else if (value instanceof String) {
-			return LocaleUtils.toLocale((String) value);
+		} else if (value instanceof String locale) {
+			return LocaleUtils.toLocale(locale);
 		}
 		return null;
 	}
-
 }

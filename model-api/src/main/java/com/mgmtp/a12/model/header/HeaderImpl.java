@@ -130,10 +130,9 @@ public class HeaderImpl implements Header, Serializable {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof HeaderImpl)) {
+		if (!(o instanceof HeaderImpl meta)) {
 			return false;
 		}
-		final HeaderImpl meta = (HeaderImpl) o;
 		return Objects.equals(getModelType(), meta.getModelType()) &&
 			Objects.equals(getModelVersion(), meta.getModelVersion()) &&
 			Objects.equals(getId(), meta.getId()) &&

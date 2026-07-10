@@ -47,7 +47,7 @@ public interface ModelRepository {
 	void create(Model item) throws FaultException;
 
 	/**
-	 * @param name the name of the model
+	 * @param id the id of the model
 	 * @return the {@link Model} with the given name
 	 * @throws ResourceAccessException if a {@link Model} with the given name does not exists
 	 */
@@ -62,13 +62,13 @@ public interface ModelRepository {
 	 * Saves the {@link Model} in the repository
 	 *
 	 * @param item the {@link Model} to store
-	 * @throws {@link FaultException} in case of errors
+	 * @throws FaultException in case of errors
 	 */
 	void save(Model item) throws FaultException;
 
 	/**
 	 * @param id the name of the {@link Model} to delete
-	 * @throws {@link FaultException} in case of errors
+	 * @throws FaultException in case of errors
 	 */
 	void delete(String id) throws FaultException;
 

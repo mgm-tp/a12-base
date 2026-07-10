@@ -1,10 +1,34 @@
 {
-  "extends": "@com.mgmtp.a12.devtools/tsconfig",
-  "include": ["./src"],
-  "exclude": ["./node_modules"],
-  "compilerOptions": {
-    "outDir": "./lib",
-    "rootDir": "./src",
-    "types": ["node", "mocha"]
-  }
+	// "extends": "@com.mgmtp.a12.devtools/tsconfig", // TODO: Enable when api-extractor supports ES2025
+	"include": ["./src"],
+	"exclude": ["./node_modules"],
+	"compilerOptions": {
+		"outDir": "./lib",
+		"rootDir": "./src",
+		"types": ["node"],
+		"erasableSyntaxOnly": true,
+		"declaration": true,
+		"declarationMap": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"jsx": "react-jsx",
+		"lib": ["DOM", "ES2024"],
+		"module": "NodeNext",
+		"moduleDetection": "force",
+		"moduleResolution": "NodeNext",
+		"newLine": "LF",
+		"noEmitOnError": true,
+		"noErrorTruncation": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": false,
+		"preserveConstEnums": true,
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"stripInternal": true,
+		"target": "ES2024",
+		"verbatimModuleSyntax": true
+	}
 }

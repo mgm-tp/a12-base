@@ -1,11 +1,14 @@
 {
-	"include": [".pnpmfile.mjs", "eslint.config.js", "prettier.config.ts"],
+	"include": [".pnpmfile.cjs", "eslint.config.ts", "prettier.config.ts"],
 	"compilerOptions": {
-		"types": ["node"],
 		"allowJs": true,
 		"checkJs": true,
 		"noEmit": true,
 		"module": "NodeNext",
-		"lib": ["esnext"]
+		"lib": ["esnext"],
+		"erasableSyntaxOnly": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"moduleDetection": "force"
 	}
 }

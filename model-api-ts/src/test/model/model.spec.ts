@@ -31,6 +31,7 @@
  */
 
 import { ok } from "node:assert/strict";
+import { describe, it } from "node:test";
 
 import type { Header } from "../../main/header/index.js";
 import { isModelInstance } from "../../main/model/index.js";

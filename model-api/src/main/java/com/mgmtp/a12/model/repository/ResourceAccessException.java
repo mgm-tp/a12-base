@@ -32,8 +32,6 @@
 package com.mgmtp.a12.model.repository;
 
 /**
- * @date $LastChangedDate: 2012-06-08 13:09:55 +0200 (Fr, 08. Jun 2012) $
- * @revision $LastChangedRevision: 423 $
  * @since 1.0
  */
 public class ResourceAccessException extends FaultException {

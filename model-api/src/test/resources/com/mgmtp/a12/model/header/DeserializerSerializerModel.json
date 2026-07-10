@@ -13,26 +13,6 @@
     ],
     "labels": [],
     "description": "This is a sample model for testing purposes. It is not intended to be used in production.",
-    "modelReferences": [
-      {
-        "purpose": "add-directive",
-        "modelType": "document",
-        "alias": "DM-1",
-        "reference": "DomainCRUD"
-      },
-      {
-        "purpose": "add-directive",
-        "modelType": "form",
-        "alias": "FM-1",
-        "reference": "CRUD"
-      },
-      {
-        "purpose": "add-directive",
-        "modelType": "overview",
-        "alias": "OM-1",
-        "reference": "CRUD-overview"
-      }
-    ],
     "annotations": [
       {
         "name": "annotation-name",
@@ -40,6 +20,26 @@
       },
       {
         "name": "valueless-annotation-name"
+      }
+    ],
+    "modelReferences": [
+      {
+        "alias": "DM-1",
+        "modelType": "document",
+        "purpose": "add-directive",
+        "reference": "DomainCRUD"
+      },
+      {
+        "alias": "FM-1",
+        "modelType": "form",
+        "purpose": "add-directive",
+        "reference": "CRUD"
+      },
+      {
+        "alias": "OM-1",
+        "modelType": "overview",
+        "purpose": "add-directive",
+        "reference": "CRUD-overview"
       }
     ]
   },

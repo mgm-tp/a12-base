@@ -22,20 +22,16 @@ Please check the [LICENSE](./LICENSE) file for details.
 
 ### Java
 
-- base-bom - BOM dependency for all Java base modules, except 'base-bundle' and 'base-parent'
-- base-bundle - DEPRECATED, use individual modules instead, aggregates all Java base modules, except 'base-parent' and 'base-bom'
-- base-parent - DEPRECATED, use base-bom instead, BOM dependency for all Java base modules, except 'base-bundle' and 'base-bom'
+- base-bom - BOM dependency for all Java base modules
 - fs-model-repository - default filesystem implementation for the model repository API
 - model-api - generic model interfaces
 - model-consistency - model consistency check API
 - model-marshalling - model marshalling
-- model-migration-api - model migration API
 - model-utils - dependency-less utils for A12 modules
 
 ### TS
 
 - model-api-ts - generic model interfaces
-- model-migration-api-ts - model migration API
 
 ### Other
 
@@ -49,7 +45,7 @@ To install the latest Java dependency, add them to you `dependencies` section in
 
 ```groovy
 dependencies {
-	implementation 'com.mgmtp.a12.base:base-bundle'
+	implementation 'com.mgmtp.a12.base:base-model-api'
 }
 ```
 
@@ -71,10 +67,10 @@ The following tools are required in order to build this repository.
 
 | Tool     | Version |
 | -------- | ------- |
-| [JDK]    | `^21`   |
+| [JDK]    | `^25`   |
 | [Gradle] | `^9`    |
 | [Node]   | `^24`   |
-| [pnpm]   | `^11`   |
+| [pnpm]   | `^10.6` |
 
 #### How to Build
 
@@ -115,7 +111,7 @@ There are no applications or showcases to execute.
 
 **The mgm A12 Team**
 
-[mgm technology partners GmbH](https://www.mgm-tp.com) | [Imprint](https://www.mgm-tp.com/imprint.html)
+[mgm technology partners GmbH](https://www.mgm-tp.com) • [Imprint](https://www.mgm-tp.com/imprint.html)
 
 <!-- References -->
 

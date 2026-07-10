@@ -34,7 +34,7 @@ package com.mgmtp.a12.model.consistency;
 import java.util.Locale;
 
 /**
- * Enumeration for error codes. Error messages are read from properties-file to ensure I18N.
+ * Enumeration for error codes.
  */
 public interface ConsistencyCategory {
 	String getKeyValue();

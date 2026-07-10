@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -66,8 +65,8 @@ public abstract class BatchConverter<T extends Model> {
 		final long startTime = System.currentTimeMillis();
 
 		for (int i = 0; i < args.length; i += 2) {
-			final T model = deserializer.deserialize(Files.newInputStream(Paths.get(args[i])));
-			final Path outPath = Paths.get(args[i + 1]).normalize();
+			final T model = deserializer.deserialize(Files.newInputStream(Path.of(args[i])));
+			final Path outPath = Path.of(args[i + 1]).normalize();
 			if (outPath != null) {
 				final Path parent = outPath.getParent();
 				if (parent == null) {

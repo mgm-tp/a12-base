@@ -32,26 +32,50 @@
 package com.mgmtp.a12.model.header;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.mgmtp.a12.model.serialization.A12DefaultJsonPrettyPrinter;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.MapperBuilder;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
-public class JacksonConfiguration {
+public final class JacksonConfiguration {
 
-	public static ObjectMapper configureMixins(final ObjectMapper objectMapper) {
-		Objects.requireNonNull(objectMapper);
-		objectMapper.addMixIn(Header.class, HeaderMixin.class)
+	static final ObjectMapper HEADER_OBJECT_MAPPER = createObjectMapper();
+
+	private static ObjectMapper createObjectMapper() {
+		final JsonMapper.Builder defaultBuilder = JsonMapper.builder()
+			.addMixIn(Header.class, HeaderMixin.class)
+			.enable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+			.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+			.disable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS)
+			.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+			.defaultPrettyPrinter(new A12DefaultJsonPrettyPrinter());
+		return configureMixins(defaultBuilder).build();
+	}
+
+	/**
+	 * Extends the MapperBuilder with mixins that are available outside the model header.
+	 * Currently, these are {@link Annotation}, {@link Label}, {@link Locale} and {@link ModelReference}.
+	 * <p>
+	 * For (de-)serialization of the {@link Header}, register the {@link HeaderModule#HEADER_MODULE}.
+	 */
+	public static <M extends ObjectMapper, B extends MapperBuilder<M, B>> B configureMixins(B builder) {
+		return builder
 			.addMixIn(Annotation.class, AnnotationMixin.class)
 			.addMixIn(Label.class, LabelMixin.class)
-			.addMixIn(ModelReference.class, ModelReferenceMixin.class)
-			.addMixIn(Locale.class, LocaleMixin.class);
-		return objectMapper;
+			.addMixIn(Locale.class, LocaleMixin.class)
+			.addMixIn(ModelReference.class, ModelReferenceMixin.class);
 	}
+
+	private JacksonConfiguration() {}
 
 	@JsonDeserialize(as = HeaderImpl.class)
 	interface HeaderMixin {
