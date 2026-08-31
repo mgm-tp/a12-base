@@ -1,6 +1,6 @@
 {
   "name": "@com.mgmtp.a12.base/base-model-api",
-  "version": "30.0.1",
+  "version": "30.0.2",
   "description": "Model API",
   "type": "module",
   "sideEffects": false,
@@ -12,7 +12,10 @@
     "compile": "tsc",
     "verify": "devtools verify-ts-compat tsconfig.check.json -p",
     "validate:api": "api-extractor run --verbose",
-    "update:api": "api-extractor run --local"
+    "update:api": "api-extractor run --local",
+    "lint:onlyErrors": "node --run lint -- --quiet",
+    "lint:fix": "node --run lint -- --fix",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config . --cache"
   },
   "author": "mgm technology partners",
   "license": "(EUPL-1.2 OR LicenseRef-commercial)",
@@ -22,12 +25,13 @@
     "@com.mgmtp.a12.utils/utils-localization": "catalog:a12",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
+    "eslint": "catalog:",
     "typedoc-plugin-missing-exports": "catalog:",
     "typedoc": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@com.mgmtp.a12.utils/utils-localization": "catalog:a12ranges"
+    "@com.mgmtp.a12.utils/utils-localization": "catalog:a12"
   },
   "files": [
     "lib",

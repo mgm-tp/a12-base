@@ -1,6 +1,6 @@
 {
   "name": "@com.mgmtp.a12.base/base-codemod",
-  "version": "30.0.1",
+  "version": "30.0.2",
   "description": "Base Codemod",
   "author": "mgm technology partners",
   "license": "(EUPL-1.2 OR LicenseRef-commercial)",
@@ -13,16 +13,20 @@
     "watch": "tsc --watch",
     "runner": "node --import ./scripts/resolveSnapshot.ts --test --test-reporter=dot",
     "test": "node --run runner -- \"lib/test/*.test.js\"",
-    "test:updateSnapshots": "node --run runner -- --test-update-snapshots \"lib/test/*.test.js\""
+    "test:updateSnapshots": "node --run runner -- --test-update-snapshots \"lib/test/*.test.js\"",
+    "lint:onlyErrors": "node --run lint -- --quiet",
+    "lint:fix": "node --run lint -- --fix",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config . --cache"
   },
   "devDependencies": {
     "@com.mgmtp.a12.devtools/tsconfig": "catalog:a12",
     "@types/node": "catalog:",
+    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "dependencies": {
     "@com.mgmtp.a12.devtools/codemod": "catalog:a12",
-    "ts-morph": "catalog:ranges"
+    "ts-morph": "catalog:"
   },
   "files": [
     "lib",

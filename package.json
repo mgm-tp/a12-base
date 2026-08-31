@@ -1,6 +1,6 @@
 {
   "name": "@com.mgmtp.a12.base/root",
-  "version": "30.0.1",
+  "version": "30.0.2",
   "a12ReleaseLine": "2026.06",
   "description": "Base Workspaces Root",
   "author": "mgm technology partners",
@@ -8,32 +8,34 @@
   "license": "(EUPL-1.2 OR LicenseRef-commercial)",
   "engines": {
     "node": "^24",
-    "pnpm": ">=10.6"
+    "pnpm": "^11"
   },
   "private": true,
   "scripts": {
     "clean": "pnpm run -r --parallel clean",
-    "verify": "pnpm run \"/^(format|lint)$/\"",
+    "verify": "pnpm run \"/^(format|lint|spellcheck)$/\"",
     "verify:fix": "pnpm run \"/^(format:fix|lint:fix)$/\"",
     "build": "pnpm run -r build",
     "compile": "pnpm run -r compile",
     "test": "pnpm run -r test",
     "format": "prettier \"**/src/**/*.{ts,tsx}\" --check --cache --cache-strategy metadata",
     "format:fix": "prettier \"**/src/**/*.{ts,tsx}\" --check -w",
-    "lint:onlyErrors": "node --run lint -- --quiet",
+    "lint:root": "eslint --flag unstable_native_nodejs_ts_config -c eslint.root.config.ts . --cache",
+    "lint": "pnpm run -r --sequential lint && node --run lint:root",
+    "lint:fix": "pnpm run -r --sequential lint:fix && node --run lint:root -- --fix",
+    "lint:onlyErrors": "pnpm run -r --sequential lint:onlyErrors && node --run lint:root -- --quiet",
     "lint:inspect": "pnpm dlx @eslint/config-inspector",
-    "lint:fix": "node --run lint -- --fix",
-    "lint": "eslint --flag unstable_native_nodejs_ts_config . --cache"
+    "spellcheck": "pnpm run -r --parallel spellcheck"
   },
   "devDependencies": {
     "@com.mgmtp.a12.devtools/eslint-config": "catalog:a12",
     "@com.mgmtp.a12.devtools/prettier-config": "catalog:a12",
+    "@eslint/compat": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",
-    "eslint-plugin-mocha": "catalog:",
     "eslint-plugin-notice": "catalog:",
     "eslint-plugin-workspaces": "catalog:",
     "prettier": "catalog:"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@11.17.0"
 }

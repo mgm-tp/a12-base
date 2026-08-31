@@ -4,6 +4,7 @@
 	"compilerOptions": {
 		"noEmit": true,
 		"module": "NodeNext",
-		"lib": ["ESNext"]
+		"lib": ["ESNext"],
+		"types": ["node"]
 	}
 }

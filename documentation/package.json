@@ -1,25 +1,21 @@
 {
   "name": "@com.mgmtp.a12.base/base-dev-documentation-src",
-  "version": "30.0.1",
+  "version": "30.0.2",
   "description": "AsciiDoc documentation for @com.mgmtp.a12.base/model-api-ts",
   "author": "mgm technology partners",
   "license": "(EUPL-1.2 OR LicenseRef-commercial)",
   "type": "module",
   "scripts": {
     "clean": "git clean -fx .",
-    "build": "node src/convert.ts",
-    "compile": "tsc",
-    "watch": "tsc --watch"
+    "build": "docu",
+    "spellcheck": "cspell \"src/**/*\""
   },
   "files": [
     "src"
   ],
   "devDependencies": {
-    "@com.mgmtp.a12.devtools/tsconfig": "catalog:a12",
+    "@com.mgmtp.a12.devtools/docu": "catalog:a12",
     "@com.mgmtp.a12.base/base-model-api": "workspace:*",
-    "asciidoctor-highlight.js": "catalog:",
-    "asciidoctor": "catalog:",
-    "highlight.js": "catalog:",
-    "typescript": "catalog:"
+    "cspell": "catalog:"
   }
 }

@@ -1,6 +1,8 @@
 {
-	"include": [".pnpmfile.cjs", "eslint.config.ts", "prettier.config.ts"],
+	"include": [".pnpmfile.mjs", "eslint.config.ts", "eslint.root.config.ts", "prettier.config.ts"],
 	"compilerOptions": {
+		"allowImportingTsExtensions": true,
+		"types": ["node"],
 		"allowJs": true,
 		"checkJs": true,
 		"noEmit": true,

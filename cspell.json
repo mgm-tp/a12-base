@@ -1,0 +1,36 @@
+{
+	"version": "0.2",
+	"language": "en",
+	"ignorePaths": [
+		"**/*.json",
+		"**/*.gradle",
+		"**/*.xml",
+		"**/*.csv",
+		"**/*.yaml",
+		"**/*.yml",
+		"**/*.patch",
+		"**/*.png",
+		"**/*.jpg",
+		"**/*.svg",
+		"**/*.gif",
+		"**/*.code-workspace",
+		"**/.editorconfig",
+		"**/.gitignore",
+		"documentation/src/assets/typedoc"
+	],
+	"words": [
+		"adoc",
+		"codemod",
+		"databind",
+		"leveloffset",
+		"licence",
+		"mgmtp",
+		"migrationtool",
+		"nowrap",
+		"pnpx"
+	],
+	"useGitignore": false, // see bug https://github.com/streetsidesoftware/cspell/issues/8012
+	"flagWords": [
+		"wether->whether"
+	]
+}

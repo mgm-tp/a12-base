@@ -8,7 +8,7 @@ Dual License
 This source file is part of the mgm A12 Platform and available under
 a choice of two different licenses:
 
-1. Open-Source License – EUPL v1.2
+1. Open-Source License - EUPL v1.2
    You may redistribute and/or modify this file under the terms of the
    European Union Public License, version 1.2 - see https://eupl.eu/.
 
@@ -23,7 +23,7 @@ You must select and comply with exactly one of the above license options.
 
 Warranty Disclaimer (applies to either option)
 ----------------------------------------------
-THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
 WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
@@ -36,15 +36,34 @@ LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 
 === Breaking Changes
 
+Codemod recipes exist for some of the breaking changes. To use them, first install or update the codemod with your preferred package manager, e.g. with `pnpm`:
+[source,bash]
+----
+pnpm install -g @com.mgmtp.a12.base/base-codemod
+----
+
+Then run the specific recipe:
+[source,bash]
+----
+base-codemod <recipe> <path to directory with tsconfig.json>
+
+// or as a single command
+pnpx @com.mgmtp.a12.base/base-codemod <recipe> <path to directory with tsconfig.json>
+----
+
 ==== Removal of Migration packages
 
 The npm package `@com.mgmtp.a12.base/base-model-migration-api` and the Java artifact `base-model-migration-api` (`com.mgmtp.a12.model.migration`) have been removed.
 These packages only contained the interfaces `MigrationTool` and `MigrationResult`, which were solely consumed by the A12 Migration Tool itself.
 Since they served no purpose outside of that context, they have been removed from A12 Base.
 
+Required:: Depending on whether you used the migration API packages in your project.
+Migration:: Manual, no codemod available.
+Result::
++
 *npm:*
 If you depend on `@com.mgmtp.a12.base/base-model-migration-api`, replace it with the `@com.mgmtp.a12.migrationtool/migrationtool-core` package, which now provides the `MigrationTool` and `MigrationResult` types directly.
-
++
 *Java:*
 The Java artifact `base-model-migration-api` has been removed without replacement.
 If you do depend on `com.mgmtp.a12.model.migration.MigrationTool` or `com.mgmtp.a12.model.migration.MigrationResult`, you will need to copy the interface and the class.
@@ -116,8 +135,10 @@ if (problems.isEmpty()) {
 }
 ----
 
-*Migration Path:*
-
+Required:: Depending on whether you used the consistency API in your project and how you used it.
+Migration:: Manual, no codemod available.
+Result::
++
 The old API used `ServiceLoader` to automatically discover all implementations of `ModelConsistencyRulesProvider` and execute their rules.
 This mechanism has been removed. Your migration path depends on how you used the API:
 
@@ -203,6 +224,10 @@ Please use the new `base-bom` artifact as Java platform / bom to manage the vers
 
 If you relied on the base-parent pom managing the version of apache.commons.io, you need to manage this dependency yourself now, since it is not used by any base library and the new base-bom does not manage it.
 
+Required:: Depending on whether you used `base-parent` and/or `base-bundle` in your project.
+Migration:: Manual, no codemod available.
+Result:: Depending on your usage & dependency declaration setup.
+
 ==== Changed Dependency Scopes
 
 The scopes of some dependencies of the base libraries were changed to better reflect their actual usage:
@@ -234,13 +259,25 @@ If you use one of these base libraries, you may have relied on the fact, that th
 Maybe you use them without declaring them as your own dependencies.
 Now, you need to add them directly to your dependency configuration.
 
+Required:: Depending on whether you relied on using base dependencies without declaring them directly.
+Migration:: Manual, no codemod available.
+Result:: Depending on your usage & dependency declaration setup.
+
 ==== Drop Java 17 Support
 
 The Base Java libraries are now compiled with and for Java 21. Support for Java 25 is also guaranteed.
 
+Required:: As required by Java 21 Migration Guide.
+Migration:: Manual, no codemod available.
+Result:: See Java 21 Migration Guide.
+
 ==== Updating to ES2025
 
 The javascript output of the npm artifacts was updated from `ES2024` to `ES2025` to be able to use latest language features. When using supported browsers, there is no change necessary. If support for older browsers is required, make sure to include necessary polyfills.
+
+Required:: Depending on whether support for older browsers is required.
+Migration:: Manual, no codemod available.
+Result:: Depending on your bundler setup, consult its documentation on how to include polyfills.
 
 ==== Removal of Deep Import Paths
 
@@ -252,9 +289,31 @@ All exports must now be imported directly from the package root. For detailed mi
 The package now uses the `exports` field instead of `main`/`types`. This should be transparent for most consumers but may require configuration updates for older bundlers.
 ====
 
+Required:: Yes.
+Migration::
++
+[source,bash]
+----
+base-codemod preferTopLevel <path to directory with tsconfig.json>
+----
+Result::
++
+[source,js]
+----
+// before
+import { Model } from "@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js"
+
+// after
+import { Model } from "@com.mgmtp.a12.base/base-model-api";
+----
+
 ==== Conversion of ModelPath namespace into object
 
 The `ModelPath` namespace was changed to a `const` object. This was done to improve treeshaking and to unblock users from using the link:https://www.typescriptlang.org/tsconfig/#erasableSyntaxOnly[erasableSyntaxOnly flag].
+
+Required:: No
+Migration:: Not needed
+Result:: No changes
 
 ==== Migration to Jackson 3
 
@@ -273,6 +332,10 @@ ObjectMapper mapper = JsonMapper.builder()
     .addModule(HEADER_MODULE)
     .build();
 ----
+
+Required:: As required by the official Jackson 3 Migration Guide.
+Migration:: Manual, no codemod available.
+Result:: See official Jackson 3 Migration Guide.
 
 == 2025.06-ext4
 

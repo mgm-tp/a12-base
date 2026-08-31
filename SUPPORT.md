@@ -19,9 +19,9 @@ Check [LICENCE](./LICENSE) of this distribution for details.
 
 ### A12 Enterprise Edition
 - Public information and discussions can be joined in the A12 Community Forum via [https://discourse.geta12.com/](https://discourse.geta12.com/). The content is public, please do not post sensitive information.
-- Enterprise customers may open **support tickets** through the ticket system at [https://support.mgm-tp.com](https://support.mgm-tp.com). Access requires **contractually designated GetA12 accounts** ([https://geta12.com](https://geta12.com)).
+- Enterprise customers may open **support tickets** through the ticket system at [https://support.mgm-tp.com](https://support.mgm-tp.com). Access requires **contractually designated GetA12 accounts** ([https://geta12.com](https://geta12.com)).  
 - To ensure efficient processing, please include all necessary information for analysis in your ticket.
-- Response times are defined by the **Service Level Agreement (SLA)** of your Enterprise Subscription and Support agreement.
+- Response times are defined by the **Service Level Agreement (SLA)** of your Enterprise Subscription and Support agreement.  
 
 ---
 
@@ -29,15 +29,15 @@ Check [LICENCE](./LICENSE) of this distribution for details.
 
 - Support is provided **only for the latest A12 release** and designated **LTS releases** - check [https://geta12.com/#/releases/release-lines](https://geta12.com/#/releases/release-lines)
 - A valid support request must include:
-    - A **clear and detailed description** of the issue
-    - The **exact A12 release** in use
-    - The **error message** received
-    - **Relevant log files**, if applicable
+  - A **clear and detailed description** of the issue  
+  - The **exact A12 release** in use  
+  - The **error message** received  
+  - **Relevant log files**, if applicable  
 - It is recommended to indicate the **impact on production**:
-    - Complete production outage (Severity 1)
-    - Major disruption (Severity 2)
-    - Limited restriction (Severity 3)
-    - Minor issue (Severity 4)
+  - Complete production outage (Severity 1)
+  - Major disruption (Severity 2)
+  - Limited restriction (Severity 3)
+  - Minor issue (Severity 4)
 
 ---
 

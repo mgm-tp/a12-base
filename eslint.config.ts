@@ -8,7 +8,7 @@
  * This source file is part of the mgm A12 Platform and available under
  * a choice of two different licenses:
  *
- * 1. Open-Source License – EUPL v1.2
+ * 1. Open-Source License - EUPL v1.2
  *    You may redistribute and/or modify this file under the terms of the
  *    European Union Public License, version 1.2 - see https://eupl.eu/.
  *
@@ -23,7 +23,7 @@
  *
  * Warranty Disclaimer (applies to either option)
  * ----------------------------------------------
- * THIS SOFTWARE IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND,
+ * THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND,
  * WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
@@ -33,7 +33,7 @@
 import { readFile } from "node:fs/promises";
 import { EOL } from "node:os";
 
-import mocha from "eslint-plugin-mocha";
+import { fixupPluginRules } from "@eslint/compat";
 import notice from "eslint-plugin-notice";
 import workspaces from "eslint-plugin-workspaces";
 import { defineConfig, globalIgnores } from "eslint/config";
@@ -65,12 +65,12 @@ const RESTRICTED_IMPORT_PATTERNS = [
 ];
 
 export default defineConfig(
-	globalIgnores(ignores, "root/ignores"),
+	globalIgnores(ignores, "shared/ignores"),
 	...strict,
 	{
-		name: `root/base`,
+		name: `shared/base`,
 		plugins: {
-			notice,
+			notice: fixupPluginRules(notice),
 			workspaces
 		},
 		languageOptions: {
@@ -118,7 +118,7 @@ export default defineConfig(
 		}
 	},
 	{
-		name: "files-with-license-header-and-interpreter-line",
+		name: "shared/files-with-license-header-and-interpreter-line",
 		files: ["**/cli.ts"],
 		rules: {
 			"notice/notice": [
@@ -132,23 +132,6 @@ export default defineConfig(
 					}
 				}
 			]
-		}
-	},
-	{
-		name: "base/testOverrides",
-		files: ["./model-api-ts/src/test/**/*"],
-		plugins: {
-			mocha
-		},
-		rules: {
-			"mocha/no-setup-in-describe": "error"
-		}
-	},
-	{
-		name: "cjsScripts/specific",
-		files: ["**/*.cjs"],
-		rules: {
-			"@typescript-eslint/no-require-imports": "off"
 		}
 	}
 );

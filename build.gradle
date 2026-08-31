@@ -1,11 +1,15 @@
 buildscript {
     dependencies {
-        classpath libs.groovy.yaml
-        classpath libs.spotbugs.plugin
-        classpath libs.cyclonedx.plugin
-        classpath libs.spotless.plugin
         classpath libs.build.utilities
     }
+}
+
+plugins {
+    alias(libs.plugins.spotbugs) apply false
+    alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.cyclonedx) apply false
+    alias(libs.plugins.version.catalog.update)
+    alias(libs.plugins.integration)
 }
 
 import com.github.spotbugs.snom.Confidence
@@ -15,6 +19,7 @@ import com.mgmtp.a12.devtools.gradle.plugins.buildutils.tasks.LeadingBuildTask
 import com.mgmtp.a12.devtools.gradle.plugins.buildutils.tasks.PackageJsonModifierTask
 import groovy.json.JsonSlurper
 import groovy.yaml.YamlSlurper
+import nl.littlerobots.vcu.plugin.resolver.VersionSelectors
 import org.cyclonedx.model.ExternalReference
 
 import java.nio.file.Files
@@ -136,15 +141,6 @@ subprojects {
 
                     target('src/**/*.properties')
                 }
-                format('asciidoc') {
-                    target '**/*.adoc'
-                    targetExclude("**/node_modules/**", "**/lib/**", "**/build/**")
-                    licenseHeaderFile(rootProject.file('license_header.txt'), '^[=\\[]')
-                    // transform C-style header to asciidoc block comments
-                    replaceRegex 'Convert C-style block start to asciidoc block comment start', '^/\\*', '////'
-                    replaceRegex 'Convert C-style block end to asciidoc block comment end', '^ \\*/', '////\n'
-                    replaceRegex 'Remove asterisk prefixes', '^ \\* ?', ''
-                }
             }
 
             // Maven publishing configuration
@@ -158,10 +154,11 @@ subprojects {
         }
 
         tasks.named('cyclonedxDirectBom') {
-            jsonOutput.set(rootProject.file("build/${project.name}-cyclonedx/cyclonedx.json"))
+            jsonOutput.set(project.layout.buildDirectory.file('cyclonedx.json'))
             xmlOutput.unsetConvention()
 
             includeBuildSystem = false
+            includeConfigs = ['runtimeClasspath']
 
             externalReferences = [
                 new ExternalReference(type: ExternalReference.Type.VCS, url: "https://git.geta12.com")
@@ -222,6 +219,23 @@ subprojects {
 
         tasks.named('deploy') {
             dependsOn tasks.named('publish')
+        }
+    }
+}
+
+project(':documentation') {
+    apply plugin: 'com.diffplug.spotless'
+
+    spotless {
+        format('asciidoc') {
+            target '**/*.adoc'
+            // node_modules holds third-party .adoc files that must not get our license header
+            targetExclude '**/node_modules/**'
+            licenseHeaderFile(rootProject.file('license_header.txt'), '^[=\\[]')
+            // transform C-style header to asciidoc block comments
+            replaceRegex 'Convert C-style block start to asciidoc block comment start', '^/\\*', '////'
+            replaceRegex 'Convert C-style block end to asciidoc block comment end', '^ \\*/', '////\n'
+            replaceRegex 'Remove asterisk prefixes', '^ \\* ?', ''
         }
     }
 }
@@ -291,4 +305,11 @@ tasks.register('setVersion', PackageJsonModifierTask) {
     packageDirs = new YamlSlurper().parse(file('./pnpm-workspace.yaml')).packages
         .collect({ file(it) }) + file('.')
     change = Helper.createSetVersion(version)
+}
+
+versionCatalogUpdate {
+    sortByKey = false
+    versionSelector {
+        VersionSelectors.PREFER_STABLE.select(it) && !it.candidate.version.contains('SNAPSHOT')
+    }
 }

@@ -13,7 +13,7 @@ node --run watch
 2. Link binary (see https://pnpm.io/cli/link for linking/unlinking)
 
 ```bash
-pnpm link -g
+pnpm add -g .
 ```
 
 3. Run it (the name of the binary is defined by the `name` property, see https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin)

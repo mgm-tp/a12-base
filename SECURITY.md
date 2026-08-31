@@ -46,5 +46,5 @@ Security advisories and updates will be published in the [documentation](https:/
 For automated security contact discovery, please refer to our [security.txt](https://geta12.com/.well-known/security.txt), which mirrors the information provided in this document according to the latest [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116.html) standards.
 
 ## Further Information
-- General project documentation, including further information on secure configuration and operation, is available at https://geta12.com/#/docs/2025.06/ext5/overall/security.
+- General project documentation, including further information on secure configuration and operation, is available at https://geta12.com/#/docs/latest/latest/overall/security.
 - Contact: [mgm technology partners GmbH](https://www.mgm-tp.com/) | [Imprint](https://www.mgm-tp.com/imprint.html)

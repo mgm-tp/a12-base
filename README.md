@@ -70,7 +70,7 @@ The following tools are required in order to build this repository.
 | [JDK]    | `^25`   |
 | [Gradle] | `^9`    |
 | [Node]   | `^24`   |
-| [pnpm]   | `^10.6` |
+| [pnpm]   | `^11`   |
 
 #### How to Build
 
@@ -111,7 +111,7 @@ There are no applications or showcases to execute.
 
 **The mgm A12 Team**
 
-[mgm technology partners GmbH](https://www.mgm-tp.com) • [Imprint](https://www.mgm-tp.com/imprint.html)
+[mgm technology partners GmbH](https://www.mgm-tp.com) | [Imprint](https://www.mgm-tp.com/imprint.html)
 
 <!-- References -->
 
