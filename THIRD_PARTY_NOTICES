@@ -1,7 +1,6 @@
 THIRD_PARTY_NOTICES
 
 Component: A12 Base
-Generated: 2026-03-10 for mgm A12 Platform 2025.06-ext5
 
 The mgm A12 Platform is developed by mgm technology partners GmbH.
 
@@ -11,100 +10,122 @@ This file lists third-party software components included in this
 distribution of the mgm A12 Platform and the licenses that apply
 to them.
 
-## Component Overview
+Component Overview
+-------------------
 
 The following third-party components are included in this distribution:
 
 - @com.mgmtp.a12.devtools/build-tools 1.1.0, licensed under EUPL v1.2
-  Copyright (C) 2012-2026 mgm technology partners GmbH
-  Source: https://github.com/mgm-tp
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.devtools/codemod 2.1.0, licensed under EUPL v1.2
-  Copyright (C) 2012-2026 mgm technology partners GmbH
-  Source: https://github.com/mgm-tp
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- @com.mgmtp.a12.devtools/docu 0.1.0, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.devtools/eslint-config 3.1.0, licensed under EUPL v1.2
-  Copyright (C) 2012-2026 mgm technology partners GmbH
-  Source: https://github.com/mgm-tp
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.devtools/prettier-config 1.1.0, licensed under EUPL v1.2
-  Copyright (C) 2012-2026 mgm technology partners GmbH
-  Source: https://github.com/mgm-tp
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.devtools/tsconfig 1.1.0, licensed under EUPL v1.2
-  Copyright (C) 2012-2026 mgm technology partners GmbH
-  Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.utils/utils-localization 7.2.0, licensed under EUPL v1.2
-  Copyright (C) 2012-2026 mgm technology partners GmbH
-  Source: https://github.com/mgm-tp
-- eslint 9.39.3, licensed under MIT
-  Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
-  Source: https://github.com/eslint/eslint
-- @eslint/config-inspector 1.4.2, licensed under Apache-2.0
-  Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
-  Source: https://github.com/eslint/config-inspector
-- eslint-plugin-mocha 11.2.0, licensed under MIT
-  Copyright (c) 2014 Mathias Schreck <schreck.mathias@gmail.com>
-  Source: https://github.com/lo1tuma/eslint-plugin-mocha
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- @com.mgmtp.a12.utils/utils-localization 7.2.1, licensed under EUPL v1.2
+	Copyright (C) 2012-2026 mgm technology partners GmbH
+	Source: https://github.com/mgm-tp
+- @types/mocha 10.0.10, licensed under MIT
+	Copyrights are respective of each contributor listed at the beginning of each definition file
+	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
+- @types/node 26.1.1, licensed under MIT
+	Copyright Node.js contributors
+	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
+- c8 12.0.0, licensed under ISC
+	Copyright (c) 2017, Contributors
+	Source: https://github.com/bcoe/c8
+- eslint 9.39.5, licensed under MIT
+	Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
+	Source: https://github.com/eslint/eslint
+- eslint-plugin-mocha 11.3.0, licensed under MIT
+	Copyright (c) 2014 Mathias Schreck <schreck.mathias@gmail.com>
+	Source: https://github.com/lo1tuma/eslint-plugin-mocha
 - eslint-plugin-notice 1.0.0, licensed under MIT
-  Copyright (c) 2017 Nick Deis
-  Source: https://github.com/nickdeis/eslint-plugin-notice
-- eslint-plugin-workspaces 0.11.1, licensed under MIT
-  Copyright (c) 2019 Joshua Jacobowitz
-  Source: https://github.com/joshuajaco/eslint-plugin-workspaces
-- prettier 3.7.4, licensed under MIT
-  Copyright © James Long and contributors
-  Source: https://github.com/prettier/prettier
+	Copyright (c) 2017 Nick Deis
+	Source: https://github.com/nickdeis/eslint-plugin-notice
+- eslint-plugin-workspaces 0.12.1, licensed under MIT
+	Copyright (c) 2019 Joshua Jacobowitz
+	Source: https://github.com/joshuajaco/eslint-plugin-workspaces
+- mocha 11.7.5, licensed under MIT
+	Copyright (c) 2011-2024 OpenJS Foundation and contributors, https://openjsf.org
+	Source: https://github.com/mochajs/mocha
+- prettier 3.9.5, licensed under MIT
+	Copyright © James Long and contributors
+	Source: https://github.com/prettier/prettier
+- rimraf 6.1.2, licensed under ISC
+	Copyright (c) 2011-2023 Isaac Z. Schlueter and Contributors
+	Source: https://github.com/isaacs/rimraf
+- source-map-support 0.5.21, licensed under MIT
+	Copyright (c) 2014 Evan Wallace
+	Source: https://github.com/evanw/node-source-map-support
 - ts-morph 27.0.2, licensed under MIT
-  Copyright (c) 2017 David Sherret
-  Source: https://github.com/dsherret/ts-morph
+	Copyright (c) 2017 David Sherret
+	Source: https://github.com/dsherret/ts-morph
 - typedoc 0.28.15, licensed under Apache-2.0
-  No explicit copyright notice found in LICENSE file
-  Source: https://github.com/TypeStrong/TypeDoc
+	Copyright (c) 2020 Oliver Nightingale
+	Source: https://github.com/TypeStrong/TypeDoc
 - typedoc-plugin-missing-exports 4.1.2, licensed under MIT
-  Copyright 2021 Gerrit Birkeland
-  Source: https://github.com/Gerrit0/typedoc-plugin-missing-exports
+	Copyright 2021 Gerrit Birkeland
+	Source: https://github.com/Gerrit0/typedoc-plugin-missing-exports
 - typescript 5.9.3, licensed under Apache-2.0
-  Copyright (c) Microsoft Corporation
-  Source: https://github.com/microsoft/TypeScript
-- @types/node 24.10.4, licensed under MIT
-  Copyright Node.js contributors and (c) Microsoft Corporation
-  Source: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-- com.github.spotbugs/spotbugs 6.4.8, licensed under LGPL-2.1
-  Copyright (C) 2016-2021, spotbugs community
-  Source: https://github.com/spotbugs/spotbugs/
-- nl.jqno.equalsverifier/equalsverifier 4.3, licensed under Apache-2.0
-  No explicit copyright notice found in LICENSE file
-  Source: https://github.com/jqno/equalsverifier
+	Copyright (c) Microsoft Corporation
+	Source: https://github.com/microsoft/TypeScript
+- com.fasterxml.jackson.core/jackson-annotations 2.22, licensed under Apache-2.0
+	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
+	Source: https://github.com/FasterXML/jackson-annotations
+- com.fasterxml.jackson.core/jackson-core 2.22.1, licensed under Apache-2.0
+	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
+	Source: https://github.com/FasterXML/jackson-core
+- com.fasterxml.jackson.core/jackson-databind 2.22.1, licensed under Apache-2.0
+	Copyright 2013 FasterXML.com
+	Source: https://github.com/FasterXML/jackson-databind
+- com.fasterxml.jackson/jackson-bom 2.22.1, licensed under Apache-2.0
+	Source: https://github.com/FasterXML/jackson-bom
 - org.apache.commons/commons-lang3 3.20.0, licensed under Apache-2.0
-  Copyright 2001-2026 The Apache Software Foundation
-  Source: https://github.com/apache/commons-lang
-- org.asciidoctor/asciidoctorj 4.0.5, licensed under Apache-2.0
-  Source: https://github.com/asciidoctor/asciidoctorj
-- org.skyscreamer/jsonassert 1.5.3, licensed under Apache-2.0
-  Source: https://github.com/skyscreamer/JSONassert
-- org.testng/testng 7.11.0, licensed under Apache-2.0
-  (c) OpenJS Foundation and other contributors
-  Source: https://github.com/testng-team/testng
+	Copyright 2001-2026 The Apache Software Foundation
+	Source: https://github.com/apache/commons-lang
 
-## NOTICE file of commons-lang
+
+Embedded NOTICE Files
+---------------------
+
+NOTICE file of org.apache.commons
+---------------------------
 
 Apache Commons Lang
-Copyright 2001-2025 The Apache Software Foundation
+Copyright 2001-2026 The Apache Software Foundation
 
 This product includes software developed at
 The Apache Software Foundation (https://www.apache.org/).
 
-## License Texts
+
+License Texts
+-------------
 
 Complete license texts for all included third-party components can
 be found in the licenses/ directory, attributions in file NOTICES.
 
-## General Notice
+
+General Notice
+--------------
 
 The mgm A12 Platform is dual-licensed under the EUPL-1.2 or a
 commercial license. Third-party components remain under their
 respective licenses. For details, see the file LICENSE.
-
-“mgm A12” is a registered trademark of mgm technology partners GmbH
+"mgm A12" is a registered trademark of mgm technology partners GmbH
 (EU/DE). All other trademarks are the property of their respective
 owners.
 
 End of THIRD_PARTY_NOTICES
+

@@ -1,6 +1,6 @@
 {
   "name": "@com.mgmtp.a12.base/base-model-api",
-  "version": "29.3.1",
+  "version": "29.3.2",
   "description": "Model API",
   "type": "module",
   "sideEffects": false,
@@ -30,7 +30,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@com.mgmtp.a12.utils/utils-localization": "catalog:a12ranges"
+    "@com.mgmtp.a12.utils/utils-localization": "catalog:a12"
   },
   "files": [
     "lib",

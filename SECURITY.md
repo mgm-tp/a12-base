@@ -1,7 +1,7 @@
 # Security Policy
 Thank you for your interest in the security of the A12 Platform, maintained by [mgm technology partners GmbH](https://www.mgm-tp.com/).
 
-The security of our products and your data is of utmost importance to us. This SECURITY.md` describes our **policies, procedures, and contact points regarding security issues**.
+The security of our products and your data is of utmost importance to us. This `SECURITY.md` describes our **policies, procedures, and contact points regarding security issues**.
 
 ## Security Patches
 We regularly scan our code for potential vulnerabilities and we also actively monitor the 3rd party libraries used in A12 for known vulnerabilities and apply patches if required. Please note, a vulnerability labeled as critical does not necessarily pose a critical risk for A12 or A12-based projects, i.e. we assess the issues and determine their severity in our context. For highly critical issues, we provide patches as soon as possible. For others, we provide patches in fixed cycles.
@@ -46,5 +46,5 @@ Security advisories and updates will be published in the [documentation](https:/
 For automated security contact discovery, please refer to our [security.txt](https://geta12.com/.well-known/security.txt), which mirrors the information provided in this document according to the latest [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116.html) standards.
 
 ## Further Information
-- General project documentation, including further information on secure configuration and operation, is available at https://geta12.com/#/docs/2025.06/ext5/overall/security.
+- General project documentation, including further information on secure configuration and operation, is available at https://geta12.com/#/docs/latest/latest/overall/security.
 - Contact: [mgm technology partners GmbH](https://www.mgm-tp.com/) | [Imprint](https://www.mgm-tp.com/imprint.html)

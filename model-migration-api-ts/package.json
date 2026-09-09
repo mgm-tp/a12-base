@@ -1,6 +1,6 @@
 {
   "name": "@com.mgmtp.a12.base/base-model-migration-api",
-  "version": "29.3.1",
+  "version": "29.3.2",
   "description": "Model Migration API",
   "type": "module",
   "sideEffects": false,

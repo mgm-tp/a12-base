@@ -1,6 +1,6 @@
 {
   "name": "@com.mgmtp.a12.base/root",
-  "version": "29.3.1",
+  "version": "29.3.2",
   "a12ReleaseLine": "2025.06",
   "description": "Base Workspaces Root",
   "author": "mgm technology partners",
@@ -35,5 +35,5 @@
     "eslint-plugin-workspaces": "catalog:",
     "prettier": "catalog:"
   },
-  "packageManager": "pnpm@11.1.2"
+  "packageManager": "pnpm@11.17.0"
 }

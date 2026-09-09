@@ -1,6 +1,6 @@
 {
   "name": "@com.mgmtp.a12.base/base-codemod",
-  "version": "29.3.1",
+  "version": "29.3.2",
   "description": "Base Codemod",
   "author": "mgm technology partners",
   "license": "(EUPL-1.2 OR LicenseRef-commercial)",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@com.mgmtp.a12.devtools/codemod": "catalog:a12",
-    "ts-morph": "catalog:ranges"
+    "ts-morph": "catalog:"
   },
   "files": [
     "lib",

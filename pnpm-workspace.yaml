@@ -1,45 +1,36 @@
-
 packages:
   - codemod
   - documentation
   - model-api-ts
   - model-migration-api-ts
 
-catalog:
-  '@types/mocha': 10.0.10
-  '@types/node': 24.10.4
-  asciidoctor-highlight.js: 0.4.0
-  asciidoctor: 3.0.4
-  highlight.js: 11.11.1
-  c8: 10.1.3
-  eslint: 9.39.2
-  eslint-plugin-mocha: 11.2.0
-  eslint-plugin-notice: 1.0.0
-  eslint-plugin-workspaces: 0.11.1
-  mocha: 11.7.5
-  prettier: 3.7.4
-  rimraf: 6.1.2
-  source-map-support: 0.5.21
-  typedoc: 0.28.15
-  typedoc-plugin-missing-exports: 4.1.2
-  typescript: 5.9.3
-
 catalogs:
   # all a12 dependencies should be listed here (regardless of how many workspaces use them)
   # this is done to have a single 'entry point' for upgrading a12
   a12:
-    '@com.mgmtp.a12.devtools/build-tools': 1.1.0
-    '@com.mgmtp.a12.devtools/codemod': 2.1.0
-    '@com.mgmtp.a12.devtools/eslint-config': 3.1.0
-    '@com.mgmtp.a12.devtools/prettier-config': 1.1.0
-    '@com.mgmtp.a12.devtools/tsconfig': 1.1.0
-    '@com.mgmtp.a12.utils/utils-localization': 7.2.0
-
-  # versions here should only be upgraded when necessary!
-  a12ranges:
+    '@com.mgmtp.a12.devtools/build-tools': ^1.1.0
+    '@com.mgmtp.a12.devtools/codemod': ^2.1.0
+    '@com.mgmtp.a12.devtools/docu': ^0.1.0
+    '@com.mgmtp.a12.devtools/eslint-config': ^3.1.0
+    '@com.mgmtp.a12.devtools/prettier-config': ^1.1.0
+    '@com.mgmtp.a12.devtools/tsconfig': ^1.1.0
     '@com.mgmtp.a12.utils/utils-localization': ^7.2.0
 
-  ranges:
+  default:
+    '@types/mocha': ^10.0.10
+    '@types/node': ^26.1.1
+    c8: ^12.0.0
+    eslint: ^9.39.5
+    eslint-plugin-mocha: ^11.3.0
+    eslint-plugin-notice: ^1.0.0
+    eslint-plugin-workspaces: ^0.12.1
+    mocha: ^11.7.5
+    prettier: ^3.9.5
+    rimraf: ^6.1.2
+    source-map-support: ^0.5.21
+    typedoc: ^0.28.15
+    typedoc-plugin-missing-exports: ^4.1.2
+    typescript: ^5.9.3
     ts-morph: ^27.0.2
 
 # cleanup unused catalog entries during install
@@ -71,21 +62,29 @@ pmOnFail: ignore
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
   - '@com.mgmtp.a12.*/*'
+  # security patch deliberately pinned ahead of the age gate
+  # (GHSA-rgw5-rvv9-x895). Can be dropped once the patched
+  # versions age out on 2026-08-06.
+  - brace-expansion
 
 # allow conflicting peer dependencies for A12 packages
 peerDependencyRules:
   allowAny:
     - "@com.mgmtp.a12.*/*"
-  allowedVersions:
-    "asciidoctor-highlight.js@0.4>@asciidoctor/core": "3"
 
 # ensure latest deps are installed when updating for audit
 resolutionMode: highest
 
 strictPeerDependencies: true
 
+# (for now), only trusted authors can change the lockfile
+trustLockfile: true
+
 # do not install packages where trust level decreased
 trustPolicy: no-downgrade
+
+# 90d - only police recent publishes; older provenance gaps predate npm attestations
+trustPolicyIgnoreAfter: 129600
 
 # before "pnpm run" calls, checks if node_modules are up-to-date
 # (e.g. after rebasing / checking out a branch and forgetting "pnpm install")
