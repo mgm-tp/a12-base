@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Base — introduction overview diagram (container level, hand-authored SVG).
+  Target location on publication: base/documentation/src/assets/images/base-overview.svg
+  Embedded from the introduction as image::assets/images/base-overview.svg[…]
+
+  Base has no process of its own, so the boundary drawn here is the host: any Java or TypeScript
+  process that declares a Base library. The picture answers where the libraries sit, which of them
+  exist on both sides and which on the Java side only, and what the project contributes.
+  Composition and context only — no internal call flow.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 570" width="1180" height="570" role="img"
+	aria-labelledby="t d" font-family="'Segoe UI', Inter, system-ui, sans-serif">
+	<title id="t">Base overview</title>
+	<desc id="d">Base is a set of libraries with no process of its own. They run inside the host process that declares
+		them: a Java process such as a backend or a build-time tool, or a TypeScript process such as a browser application.
+		The Model API is the one part that exists on both sides, as a twin implementation of the same header and content
+		structure; the TypeScript side adds ModelPath. Model Marshalling, Model Consistency, the Filesystem Model Repository
+		and Model Utils exist on the Java side only. In the same process run Jackson and Apache Commons Lang, which bind a
+		model's header and content to and from JSON and XML on the Java side, and, on the TypeScript side, the A12 library
+		Localization, which provides the LocalizedModelText type used for a header's labels. The project's own code adds
+		what Base leaves open: consistency validators, model repository implementations, and serialization providers
+		registered through the Java ServiceLoader. Base works on A12 model files in JSON or XML, whose header it defines and
+		whose content structure is defined by the component that owns the model type.</desc>
+
+	<defs>
+		<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+			<path d="M0,1 L9,5 L0,9 z" fill="#64748b" />
+		</marker>
+		<style>
+			.zone {
+				font-size: 11px;
+				font-weight: 600;
+				letter-spacing: .09em;
+				fill: #94a3b8
+			}
+
+			.card {
+				fill: #f8fafc;
+				stroke: #cbd5e1;
+				stroke-width: 1
+			}
+
+			.block {
+				fill: #ffffff;
+				stroke: #cbd5e1;
+				stroke-width: 1
+			}
+
+			.lib {
+				fill: #eef4ff;
+				stroke: #93b4e8;
+				stroke-width: 1
+			}
+
+			.tp {
+				fill: #f1f2f4;
+				stroke: #a9b1bd;
+				stroke-width: 1
+			}
+
+			.own {
+				fill: #fffdf5;
+				stroke: #d6b877;
+				stroke-width: 1;
+				stroke-dasharray: 5 3
+			}
+
+			.name {
+				font-size: 14px;
+				fill: #0f172a
+			}
+
+			.libnm {
+				font-size: 14px;
+				fill: #1e3a8a
+			}
+
+			.tpnm {
+				font-size: 14px;
+				fill: #334155
+			}
+
+			.lead {
+				font-size: 15px;
+				font-weight: 600;
+				fill: #0f172a
+			}
+
+			.sub {
+				font-size: 12px;
+				fill: #64748b
+			}
+
+			.cap {
+				font-size: 11px;
+				fill: #64748b;
+				font-style: italic
+			}
+
+			.libcp {
+				font-size: 11px;
+				fill: #3b6bb5;
+				font-style: italic
+			}
+
+			.band {
+				font-size: 11px;
+				font-weight: 600;
+				letter-spacing: .06em;
+				fill: #94a3b8
+			}
+
+			.edge {
+				stroke: #64748b;
+				stroke-width: 1.4;
+				fill: none;
+				marker-end: url(#arw)
+			}
+		</style>
+	</defs>
+
+	<!-- context column: what Base works on -->
+	<text class="zone" x="24" y="176">WORKS ON</text>
+	<g class="card">
+		<rect x="24" y="190" width="232" height="76" rx="8" />
+	</g>
+	<text class="name" x="42" y="216">A12 Model Files</text>
+	<text class="cap" x="42" y="235">JSON or XML. Base defines the header;</text>
+	<text class="cap" x="42" y="250">the owning component the content</text>
+	<path class="edge" d="M256 228 H 278" />
+
+	<!-- the process -->
+	<rect x="280" y="60" width="640" height="450" rx="14" fill="#fcfdfe" stroke="#94a3b8" stroke-width="1.5" />
+	<text class="lead" x="304" y="92">Any process that declares a Base library</text>
+	<text class="sub" x="304" y="112">the boundary is one process: a Java process such as a backend or a build-time
+		tool,</text>
+	<text class="sub" x="304" y="128">or a TypeScript process such as a browser application</text>
+
+	<text class="band" x="304" y="158">BASE</text>
+	<g class="block">
+		<rect x="304" y="166" width="290" height="58" rx="8" />
+	</g>
+	<text class="name" x="322" y="190">Model API</text>
+	<text class="cap" x="322" y="208">header and content, Java and TypeScript</text>
+
+	<g class="block">
+		<rect x="606" y="166" width="290" height="58" rx="8" />
+	</g>
+	<text class="name" x="624" y="190">Model Marshalling</text>
+	<text class="cap" x="624" y="208">JSON and XML serialization factories</text>
+
+	<g class="block">
+		<rect x="304" y="236" width="188" height="70" rx="8" />
+	</g>
+	<text class="name" x="320" y="262">Model Consistency</text>
+	<text class="cap" x="320" y="283">the check API</text>
+
+	<g class="block">
+		<rect x="506" y="236" width="188" height="70" rx="8" />
+	</g>
+	<text class="name" x="522" y="262">Filesystem Model</text>
+	<text class="name" x="522" y="279">Repository</text>
+	<text class="cap" x="522" y="297">models as files</text>
+
+	<g class="block">
+		<rect x="708" y="236" width="188" height="70" rx="8" />
+	</g>
+	<text class="name" x="724" y="262">Model Utils</text>
+	<text class="cap" x="724" y="283">stability annotations</text>
+
+	<text class="cap" x="304" y="328">Model API is the twin implementation; the other four exist on the Java side
+		only.</text>
+
+	<text class="band" x="304" y="356">IN THE SAME PROCESS</text>
+	<g class="tp">
+		<rect x="304" y="364" width="290" height="58" rx="8" />
+	</g>
+	<text class="tpnm" x="322" y="388">Jackson, Apache Commons Lang</text>
+	<text class="cap" x="322" y="406">JSON and XML binding of models (Java)</text>
+
+	<g class="lib">
+		<rect x="606" y="364" width="290" height="58" rx="8" />
+	</g>
+	<text class="libnm" x="624" y="388">Localization (TypeScript)</text>
+	<text class="libcp" x="624" y="406">LocalizedModelText for a header's labels</text>
+
+	<g class="own">
+		<rect x="304" y="432" width="592" height="46" rx="8" />
+	</g>
+	<text class="name" x="322" y="452">Your project code</text>
+	<text class="cap" x="322" y="469">consistency validators, model repository implementations, serialization
+		providers</text>
+
+	<text class="cap" x="304" y="498">Composition and context only: which part calls which is not shown.</text>
+
+	<!-- legend -->
+	<g class="block">
+		<rect x="280" y="534" width="14" height="14" rx="3" />
+	</g>
+	<text class="cap" x="302" y="545">Base</text>
+	<g class="lib">
+		<rect x="364" y="534" width="14" height="14" rx="3" />
+	</g>
+	<text class="cap" x="386" y="545">A12 libraries it builds on</text>
+	<g class="tp">
+		<rect x="548" y="534" width="14" height="14" rx="3" />
+	</g>
+	<text class="cap" x="570" y="545">third-party libraries</text>
+	<g class="own">
+		<rect x="702" y="534" width="14" height="14" rx="3" />
+	</g>
+	<text class="cap" x="724" y="545">the project's own code</text>
+</svg>

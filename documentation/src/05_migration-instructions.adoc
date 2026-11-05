@@ -218,7 +218,7 @@ public class MyConsistencyValidator extends ConsistencyValidator<MyModel> {
 ==== Removal of base-parent and base-bundle
 
 After the deprecation in the previous release, the Java artifacts `base-parent` and `base-bundle` were removed now.
-See the link:/docs/2025.06/ext4/base/base-documentation-bundle#_deprecation_of_base_parent[deprecation notice,role=external] for details.
+See the link:/docs/2025.06/ext4/base/base-documentation-bundle/index.html#_deprecation_of_base_parent[deprecation notice,role=external] for details.
 
 Please use the new `base-bom` artifact as Java platform / bom to manage the versions of used base libraries and configure the specific base libraries you need as direct dependencies.
 
@@ -282,7 +282,7 @@ Result:: Depending on your bundler setup, consult its documentation on how to in
 ==== Removal of Deep Import Paths
 
 Deep import paths from `@com.mgmtp.a12.base/model-api-ts` (e.g., `@com.mgmtp.a12.base/base-model-api/lib/main/model/index.js`) have been removed.
-All exports must now be imported directly from the package root. For detailed migration instructions, see the link:/docs/2025.06/ext4/base/base-documentation-bundle#_deep_import_paths_of_a12_base_npm_packages[deprecation,role=external] note.
+All exports must now be imported directly from the package root. For detailed migration instructions, see the link:/docs/2025.06/ext4/base/base-documentation-bundle/index.html#_deep_import_paths_of_a12_base_npm_packages[deprecation,role=external] note.
 
 [NOTE]
 ====

@@ -32,4 +32,4 @@ LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
 
 = Breaking Change Management
 
-All base libraries follow the general link:/docs/overall/breaking_change_management[A12 breaking change interpretation].
+All base libraries follow the general link:/docs/overall/breaking_change_management/index.html[A12 breaking change interpretation].

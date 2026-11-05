@@ -3,7 +3,7 @@
 Whether you're exploring A12 for the first time or running it in production - here's how to get support.
 
 The **A12 Platform** is developed by **[mgm technology partners GmbH](https://www.mgm-tp.com)** and is made available under a dual license:  
-Check [LICENCE](./LICENSE) of this distribution for details.
+Check [LICENSE](./LICENSE) of this distribution for details.
 
 ---
 

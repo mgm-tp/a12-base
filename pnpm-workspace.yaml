@@ -13,20 +13,18 @@ catalogs:
     '@com.mgmtp.a12.devtools/build-tools': ^1.1.2
     '@com.mgmtp.a12.devtools/codemod': ^2.2.2
     '@com.mgmtp.a12.devtools/docu': ^0.1.0
-    '@com.mgmtp.a12.devtools/eslint-config': ^4.0.0
-    '@com.mgmtp.a12.devtools/prettier-config': ^1.1.1
     '@com.mgmtp.a12.devtools/tsconfig': ^2.0.1
-    '@com.mgmtp.a12.utils/utils-localization': ^8.0.1
+    '@com.mgmtp.a12.utils/utils-localization': ^8.1.0
 
   default:
-    '@eslint/compat': ^2.1.0
     '@microsoft/api-extractor': ^7.58.7
+    '@tony.ganchev/eslint-plugin-header': ^3.4.4
     '@types/node': ^26.1.1
     cspell: ^10.0.0
-    eslint: ^10.7.0
-    eslint-plugin-notice: ^1.1.0-rc1
     eslint-plugin-workspaces: ^0.12.1
-    prettier: ^3.9.5
+    oxfmt: ^0.65.0
+    oxlint: ^1.80.0
+    oxlint-tsgolint: ^7.0.2001
     ts-morph: ^27.0.2
     typedoc: ^0.28.19
     typedoc-plugin-missing-exports: ^4.1.3
@@ -54,18 +52,17 @@ loglevel: info
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
   - '@com.mgmtp.a12.*/*'
-  # security patch deliberately pinned ahead of the age gate
-  # (GHSA-rgw5-rvv9-x895). Can be dropped once the patched
-  # versions age out on 2026-08-06.
-  - brace-expansion
+  - oxfmt
+  - '@oxfmt/*'
+  - oxlint
+  - '@oxlint/*'
+  - oxlint-tsgolint
+  - '@oxlint-tsgolint/*'
 
 # allow conflicting peer dependencies for A12 packages
 peerDependencyRules:
   allowAny:
     - "@com.mgmtp.a12.*/*"
-  allowedVersions:
-    "eslint-plugin-react>eslint": "10"
-    "eslint-plugin-import>eslint": "10"
 
 # prevent pnpm >10 from self-upgrading,
 # since it doesn't use the global node_modules as target

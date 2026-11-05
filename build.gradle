@@ -28,9 +28,10 @@ import java.nio.file.Paths
 
 /** Define a proper version in build */
 String globalVersion = Helper.getVersion(
-    file('package.json'),
-    project.findProperty('version'),
-    project.findProperty('use')
+    providers,
+    layout.projectDirectory.file('package.json'),
+    project.findProperty('version') as String,
+    project.findProperty('use') as String
 )
 
 String pnpmVersion = getPnpmVersion()
@@ -51,6 +52,8 @@ allprojects {
 if (file('publish/build.gradle').exists()) {
     apply from: 'publish/build.gradle'
 }
+
+final def jacksonBom = libs.jackson.bom
 
 subprojects {
     // Shared configuration for Java library modules
@@ -77,7 +80,7 @@ subprojects {
             }
 
             dependencies {
-                api platform(libs.jackson.bom)
+                api platform(jacksonBom)
             }
 
             tasks.withType(JavaCompile).configureEach {
@@ -264,14 +267,14 @@ tasks.register('configurePnpm', LeadingBuildTask) {
     }
 }
 
-tasks.register('installDependencies', LeadingBuildTask) {
+tasks.register('pnpmInstall', LeadingBuildTask) {
     dependsOn tasks.named('configurePnpm')
     mustRunAfter tasks.named('setVersion')
     doLast { execCommandLine 'pnpm', 'install' }
 }
 
 tasks.register('verify', LeadingBuildTask) {
-    dependsOn tasks.named('installDependencies')
+    dependsOn tasks.named('pnpmInstall')
     doLast { execCommandLine 'node', '--run', 'verify' }
 }
 
@@ -301,7 +304,12 @@ tasks.named('check') {
     dependsOn tasks.named('nodeTest')
 }
 
+// review builds resolve to the plain -SNAPSHOT version, so stamping would rewrite all
+// workspace package.json files to what they already contain
+final boolean stampVersion = project.hasProperty('use')
+
 tasks.register('setVersion', PackageJsonModifierTask) {
+    onlyIf { stampVersion }
     packageDirs = new YamlSlurper().parse(file('./pnpm-workspace.yaml')).packages
         .collect({ file(it) }) + file('.')
     change = Helper.createSetVersion(version)

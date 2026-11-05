@@ -29,12 +29,43 @@
  * NON-INFRINGEMENT, EXCEPT WHERE SUCH DISCLAIMERS ARE HELD TO BE
  * LEGALLY INVALID. SEE THE RESPECTIVE LICENSE TEXT FOR DETAILS.
  */
+import { defineConfig } from "oxfmt";
 
-import { type Config } from "prettier";
+export default defineConfig({
+	useTabs: true,
+	tabWidth: 2,
+	trailingComma: "none",
+	arrowParens: "avoid",
+	printWidth: 100,
+	endOfLine: "lf",
+	insertFinalNewline: true,
+	sortPackageJson: false,
 
-import a12Config from "@com.mgmtp.a12.devtools/prettier-config";
+	/**
+	 * The `ancestors` group has to match `../../**`: oxfmt's globstar crosses `..`, so a custom
+	 * `../**` group would match every parent import instead of only the direct-parent tier.
+	 */
+	sortImports: {
+		groups: ["builtin", "external", "internal", "ancestors", "parent", "sibling", "index"],
+		customGroups: [{ groupName: "ancestors", elementNamePattern: ["../../**"] }],
+		newlinesBetween: true,
+		internalPattern: ["@com.mgmtp.a12"]
+	},
 
-export default {
-	...a12Config,
-	printWidth: 100
-} satisfies Config;
+	/**
+	 * gitignore semantics: a bare name matches at any depth, a pattern with a slash is anchored.
+	 * `testData` holds codemod fixtures whose imports must keep the exact order the test expects,
+	 * and `*.api.md` is generated (and the repo's only CRLF file).
+	 */
+	ignorePatterns: [
+		"*.api.md",
+		"THIRD_PARTY_NOTICES",
+		"licenses",
+		"build",
+		"lib",
+		"target",
+		"testData",
+		"worktrees",
+		"documentation/src/assets/typedoc"
+	]
+});

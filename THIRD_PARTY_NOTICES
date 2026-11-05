@@ -24,41 +24,36 @@ The following third-party components are included in this distribution:
 - @com.mgmtp.a12.devtools/docu 0.1.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.devtools/eslint-config 4.0.0, licensed under EUPL v1.2
-	Copyright (C) 2012-2026 mgm technology partners GmbH
-	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.devtools/prettier-config 1.1.1, licensed under EUPL v1.2
-	Copyright (C) 2012-2026 mgm technology partners GmbH
-	Source: https://github.com/mgm-tp
 - @com.mgmtp.a12.devtools/tsconfig 2.0.1, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @com.mgmtp.a12.utils/utils-localization 8.0.2, licensed under EUPL v1.2
+- @com.mgmtp.a12.utils/utils-localization 8.1.0, licensed under EUPL v1.2
 	Copyright (C) 2012-2026 mgm technology partners GmbH
 	Source: https://github.com/mgm-tp
-- @eslint/compat 2.1.0, licensed under Apache-2.0
-	Source: https://github.com/eslint/rewrite/tree/main/packages/compat
 - @microsoft/api-extractor 7.58.7, licensed under MIT
 	Copyright (c) Microsoft Corporation
 	Source: https://github.com/microsoft/rushstack/tree/main/apps/api-extractor
+- @tony.ganchev/eslint-plugin-header 3.4.4, licensed under MIT
+	Copyright (c) 2015-present Stuart Knightley and contributors Copyright (c) 2024-present Tony Ganchev
+	Source: https://github.com/tonyganchev/eslint-plugin-header
 - @types/node 26.1.1, licensed under MIT
-	Copyright Node.js contributors
+	Copyrights are respective of each contributor listed at the beginning of each definition file.
 	Source: https://github.com/DefinitelyTyped/DefinitelyTyped
 - cspell 10.0.0, licensed under MIT
 	Copyright (c) 2017 Jason Dent
 	Source: https://github.com/streetsidesoftware/cspell
-- eslint 10.7.0, licensed under MIT
-	Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
-	Source: https://github.com/eslint/eslint
-- eslint-plugin-notice 1.1.0-rc1, licensed under MIT
-	Copyright (c) 2017 Nick Deis
-	Source: https://github.com/nickdeis/eslint-plugin-notice
 - eslint-plugin-workspaces 0.12.1, licensed under MIT
 	Copyright (c) 2019 Joshua Jacobowitz
 	Source: https://github.com/joshuajaco/eslint-plugin-workspaces
-- prettier 3.9.5, licensed under MIT
-	Copyright © James Long and contributors
-	Source: https://github.com/prettier/prettier
+- oxfmt 0.65.0, licensed under MIT
+	Copyright (c) 2024-present VoidZero Inc. & Contributors AND Copyright (c) 2023 Boshen
+	Source: https://github.com/oxc-project/oxc
+- oxlint 1.80.0, licensed under MIT
+	Copyright (c) 2024-present VoidZero Inc. & Contributors AND Copyright (c) 2023 Boshen
+	Source: https://github.com/oxc-project/oxc
+- oxlint-tsgolint 7.0.2001, licensed under MIT
+	Copyright (c) 2025 July-present VoidZero Inc. & Contributors AND Copyright (c) 2025 July typescript-eslint and other contributors
+	Source: https://github.com/oxc-project/tsgolint
 - ts-morph 27.0.2, licensed under MIT
 	Copyright (c) 2017 David Sherret
 	Source: https://github.com/dsherret/ts-morph
@@ -77,13 +72,13 @@ The following third-party components are included in this distribution:
 - org.apache.commons/commons-lang3 3.20.0, licensed under Apache-2.0
 	Copyright 2001-2026 The Apache Software Foundation
 	Source: https://github.com/apache/commons-lang
-- tools.jackson.core/jackson-core 3.2.1, licensed under Apache-2.0
+- tools.jackson.core/jackson-core 3.2.4, licensed under Apache-2.0
 	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
 	Source: https://github.com/FasterXML/jackson-core
-- tools.jackson.core/jackson-databind 3.2.1, licensed under Apache-2.0
+- tools.jackson.core/jackson-databind 3.2.4, licensed under Apache-2.0
 	Copyright 2007-, Tatu Saloranta (tatu.saloranta@iki.fi)
 	Source: https://github.com/FasterXML/jackson-databind
-- tools.jackson/jackson-bom 3.2.1, licensed under Apache-2.0
+- tools.jackson/jackson-bom 3.2.4, licensed under Apache-2.0
 	Source: https://github.com/FasterXML/jackson-bom
 
 

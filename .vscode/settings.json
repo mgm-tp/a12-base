@@ -15,12 +15,19 @@
 	"js/ts.validate.enabled": true,
 	"js/ts.preferences.importModuleSpecifierEnding": "js",
 	"js/ts.tsdk.path": "./model-api-ts/node_modules/typescript/lib",
-	"[javascript][typescript][jsonc]": {
+	"[javascript]": {
 		"editor.formatOnSave": true,
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},
-	"editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll.eslint"],
-	"eslint.options": {
-		"flags": ["unstable_native_nodejs_ts_config"]
+	"[typescript]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	},
+	"[jsonc]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll.oxc": "explicit"
 	}
 }

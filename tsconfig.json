@@ -1,5 +1,5 @@
 {
-	"include": [".pnpmfile.mjs", "eslint.config.ts", "eslint.root.config.ts", "prettier.config.ts"],
+	"include": ["oxfmt.config.ts", "oxlint.config.ts"],
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
 		"types": ["node"],

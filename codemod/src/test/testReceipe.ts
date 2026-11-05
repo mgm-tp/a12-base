@@ -46,11 +46,11 @@ const TESTDATA_DIR = join(import.meta.dirname, "..", "..", "src", "testData");
  *
  * Changed files are checked against snapshots.
  */
-export function testRecipe(recipe: Recipe, tsConfigPath: string): void {
+export async function testRecipe(recipe: Recipe, tsConfigPath: string): Promise<void> {
 	const project = new Project({
 		tsConfigFilePath: join(TESTDATA_DIR, tsConfigPath)
 	});
-	recipe.execute(project);
+	await recipe.execute(project);
 
 	for (const migratedFile of project.getSourceFiles()) {
 		it(`should migrate ${migratedFile.getBaseName()} correctly`, ({ assert }) => {

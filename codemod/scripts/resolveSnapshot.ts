@@ -33,9 +33,11 @@
 import { snapshot } from "node:test";
 
 snapshot.setResolveSnapshotPath(fileName => {
-	const toSrcDir = fileName?.replace("lib", "src");
+	if (fileName === undefined) {
+		throw new Error("Cannot resolve a snapshot path without a test file name");
+	}
 
-	return `${toSrcDir}.snapshot`;
+	return `${fileName.replace("lib", "src")}.snapshot`;
 });
 
-snapshot.setDefaultSnapshotSerializers([v => v]);
+snapshot.setDefaultSnapshotSerializers([(value: unknown) => value]);

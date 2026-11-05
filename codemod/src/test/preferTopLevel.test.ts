@@ -38,7 +38,7 @@ import { preferTopLevelImportsRecipe } from "../recipes/preferTopLevel.js";
 import { testRecipe } from "./testReceipe.js";
 
 describe("codemod.recipes.preferTopLevel", () => {
-	describe("Rewrites import paths correctly", () => {
-		testRecipe(preferTopLevelImportsRecipe, join("preferTopLevel", "tsconfig.json"));
+	describe("Rewrites import paths correctly", async () => {
+		await testRecipe(preferTopLevelImportsRecipe, join("preferTopLevel", "tsconfig.json"));
 	});
 });
